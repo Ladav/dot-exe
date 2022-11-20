@@ -3,7 +3,7 @@ import { BsFiles, BsFolder, BsSearch, BsStar, BsSortDownAlt } from 'react-icons/
 import { IoSettingsOutline } from 'react-icons/io5'
 import { TbEdit } from 'react-icons/tb'
 import { FiFolderPlus } from 'react-icons/fi'
-import { HOME_NAME } from './contants/constant'
+import { APP_NAME, HOME_NAME } from './constants/constant'
 
 function App() {
   return (
@@ -25,7 +25,7 @@ function App() {
               <BsStar />
             </button>
           </li>
-          <li className="w-full text-center">Obsidian</li>
+          <li className="w-full text-center">{APP_NAME}</li>
         </ul>
       </header>
       <div className="w-full flex-1 flex overflow-hidden">
