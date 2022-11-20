@@ -1,0 +1,1 @@
+- [ ] cursor-pointer class not working with scrollbar thumb
