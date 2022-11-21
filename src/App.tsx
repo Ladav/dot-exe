@@ -4,6 +4,7 @@ import { IoSettingsOutline } from 'react-icons/io5'
 import { TbEdit } from 'react-icons/tb'
 import { FiFolderPlus } from 'react-icons/fi'
 import { APP_NAME, HOME_NAME } from './constants/constant'
+import { Editor } from './components/editor'
 
 function App() {
   return (
@@ -83,7 +84,7 @@ function App() {
           </div>
         </div>
         <main className="w-full h-full">
-          <div className="px-2 py-3">MAIN</div>
+          <Editor content={'<h1>Test</h1>'} className="px-2 py-3 w-full h-full" />
         </main>
       </div>
     </div>
