@@ -11,7 +11,7 @@ export default function Editor({ content, ...editorContentProps }: EditorProps) 
     content,
     editorProps: {
       attributes: {
-        class: 'prose prose-sm lg:prose-lg xl:prose-xl mx-auto prose-invert p-4 focus:outline-none max-w-[800px]',
+        class: 'prose mx-auto prose-invert p-4 focus:outline-none max-w-[800px]',
       },
     },
   })

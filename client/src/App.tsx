@@ -83,8 +83,8 @@ function App() {
             </div>
           </div>
         </div>
-        <main className="w-full h-full">
-          <Editor content={'<h1>Test</h1>'} className="px-2 py-3 w-full h-full" />
+        <main className="w-full h-full py-2">
+          <Editor content={'<h1>Untitled</h1>'} className="px-2 py-3 overflow-auto w-full h-full" />
         </main>
       </div>
     </div>
