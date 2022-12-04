@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { PageService } from './page.service';
 import { CreatePageDto, UpdatePageDto } from './page.dto';
 
@@ -17,17 +17,17 @@ export class PageController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.pageService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.pageService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePageDto: UpdatePageDto) {
-    return this.pageService.update(+id, updatePageDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() updatePageDto: UpdatePageDto) {
+    return this.pageService.update(id, updatePageDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.pageService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.pageService.remove(id);
   }
 }

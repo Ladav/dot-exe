@@ -1,6 +1,7 @@
 import { PrismaService } from './../prisma/prisma.service';
-import { Injectable } from '@nestjs/common';
+import { BadGatewayException, BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreatePageDto, UpdatePageDto } from './page.dto';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
 @Injectable()
 export class PageService {
@@ -18,11 +19,26 @@ export class PageService {
     return this.prisma.page.findFirst({ where: { id } });
   }
 
-  update(id: number, updatePageDto: UpdatePageDto) {
-    return this.prisma.page.update({ where: { id }, data: updatePageDto });
+  async update(id: number, updatePageDto: UpdatePageDto) {
+    try {
+      const updated = await this.prisma.page.update({ where: { id }, data: updatePageDto });
+      return updated;
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        throw new BadGatewayException(error.meta?.cause);
+      }
+      throw new InternalServerErrorException();
+    }
   }
 
-  remove(id: number) {
-    return this.prisma.page.delete({ where: { id } });
+  async remove(id: number) {
+    try {
+      await this.prisma.page.delete({ where: { id } });
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        throw new BadRequestException(error.meta?.cause);
+      }
+      throw new InternalServerErrorException();
+    }
   }
 }
