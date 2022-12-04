@@ -5,8 +5,12 @@ import { TbEdit } from 'react-icons/tb'
 import { FiFolderPlus } from 'react-icons/fi'
 import { APP_NAME, HOME_NAME } from './constants/constant'
 import { Editor } from './components/editor'
+import { useState } from 'react'
+import { CreatePage } from './components/create-page'
+import { PageList } from './components/page-list'
 
 function App() {
+  const [pageOpened, setPageOpened] = useState()
   return (
     <div className="w-full h-full bg-slate-800 text-slate-300 flex flex-col">
       <header className="bg-slate-600 h-[45px] text-base py-1 px-2 flex items-center">
@@ -53,9 +57,13 @@ function App() {
           <div className="w-80 overflow-hidden flex flex-col">
             <ul className="text-lg mb-4 px-2 my-3 flex items-center gap-x-1 w-full justify-center">
               <li>
-                <button className="icon-container">
-                  <TbEdit />
-                </button>
+                <CreatePage
+                  trigger={
+                    <button className="icon-container">
+                      <TbEdit />
+                    </button>
+                  }
+                />
               </li>
               <li>
                 <button className="icon-container">
@@ -70,21 +78,18 @@ function App() {
             </ul>
             <div className="w-full px-4 my-3 flex-1 overflow-y-auto overflow-x-hidden">
               <div className="font-medium">{HOME_NAME}</div>
-              <ul className="mt-2 w-full">
-                <li className="icon-container !justify-start !px-2 text-sm !py-0.5">
-                  <a href="/">Untitled</a>
-                </li>
-                {new Array(30).fill(0).map((item, idx) => (
-                  <li key={idx} className="icon-container !justify-start !px-2 text-sm !py-0.5">
-                    <a href="/">Untitled ({idx})</a>
-                  </li>
-                ))}
-              </ul>
+              <PageList />
             </div>
           </div>
         </div>
         <main className="w-full h-full py-2">
-          <Editor content={'<h1>Untitled</h1>'} className="px-2 py-3 overflow-auto w-full h-full" />
+          {pageOpened ? (
+            <Editor content={'<h1>Untitled</h1>'} className="px-2 py-3 overflow-auto w-full h-full" />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <p className="text-base">Select a file from the sidebar</p>
+            </div>
+          )}
         </main>
       </div>
     </div>
