@@ -14,6 +14,9 @@ export default function Editor({ content, ...editorContentProps }: EditorProps) 
         class: 'prose mx-auto prose-invert p-4 focus:outline-none max-w-[800px]',
       },
     },
+    onUpdate: ({ editor }) => {
+      console.log(editor.getHTML())
+    },
   })
 
   return <EditorContent editor={editor} {...editorContentProps} />
