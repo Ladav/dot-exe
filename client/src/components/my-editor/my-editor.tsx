@@ -1,11 +1,13 @@
 import { useEditor, EditorContent, Content, EditorContentProps } from '@tiptap/react'
+import type { Editor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 
-export interface EditorProps extends Pick<EditorContentProps, 'className'> {
+export interface MyEditorProps extends Pick<EditorContentProps, 'className'> {
   content?: Content
+  onUpdate: Editor['options']['onUpdate']
 }
 
-export default function Editor({ content, ...editorContentProps }: EditorProps) {
+export default function MyEditor({ onUpdate, content, ...editorContentProps }: MyEditorProps) {
   const editor = useEditor({
     extensions: [StarterKit],
     content,
@@ -14,9 +16,7 @@ export default function Editor({ content, ...editorContentProps }: EditorProps) 
         class: 'prose mx-auto prose-invert p-4 focus:outline-none max-w-[800px]',
       },
     },
-    onUpdate: ({ editor }) => {
-      // console.log(editor.getHTML())
-    },
+    onUpdate,
   })
 
   return <EditorContent editor={editor} {...editorContentProps} />

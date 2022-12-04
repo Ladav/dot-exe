@@ -1,4 +1,4 @@
-import { CreatePageDto } from './../types/page.types'
+import { CreatePageDto, UpdatePageDto } from './../types/page.types'
 import { apiClient } from '../constants/client'
 
 export async function createPage(dto: CreatePageDto) {
@@ -13,5 +13,10 @@ export async function getAllPages() {
 
 export async function getPageById(id: number) {
   const { data } = await apiClient.get(`/page/${id}`)
+  return data
+}
+
+export async function updatePageById(id: number, dto: UpdatePageDto) {
+  const { data } = await apiClient.patch(`/page/${id}`, dto)
   return data
 }

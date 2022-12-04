@@ -19,6 +19,7 @@ specifiers:
   eslint-plugin-react-hooks: ^4.6.0
   postcss: ^8.4.19
   prettier: ^2.7.1
+  radash: ^9.5.0
   react: ^18.2.0
   react-dom: ^18.2.0
   react-icons: ^4.6.0
@@ -30,6 +31,7 @@ dependencies:
   '@tiptap/react': 2.0.0-beta.202_biqbaboplfbrettd7655fr4n2y
   '@tiptap/starter-kit': 2.0.0-beta.202
   axios: 1.2.0
+  radash: 9.5.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-icons: 4.6.0_react@18.2.0
@@ -2706,6 +2708,11 @@ packages:
     resolution: {integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==}
     engines: {node: '>=10'}
     dev: true
+
+  /radash/9.5.0:
+    resolution: {integrity: sha512-t0s8BJlvrk8YPaOS8X0J2xzqAsBlXAUkDEjoBXwlzaXsXNCpBILjT9OvWlabLa2KB/r4XrhThdXjxMs7SiCyIw==}
+    engines: {node: '>=14.18.0'}
+    dev: false
 
   /react-dom/18.2.0_react@18.2.0:
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
