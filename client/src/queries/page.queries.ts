@@ -10,3 +10,8 @@ export async function getAllPages() {
   const { data } = await apiClient.get('/page')
   return data
 }
+
+export async function getPageById(id: number) {
+  const { data } = await apiClient.get(`/page/${id}`)
+  return data
+}

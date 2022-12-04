@@ -1,16 +1,18 @@
+import { CreatePage } from './components/create-page'
 import { BiMessageSquareEdit } from 'react-icons/bi'
 import { BsFiles, BsFolder, BsSearch, BsStar, BsSortDownAlt } from 'react-icons/bs'
 import { IoSettingsOutline } from 'react-icons/io5'
 import { TbEdit } from 'react-icons/tb'
 import { FiFolderPlus } from 'react-icons/fi'
 import { APP_NAME, HOME_NAME } from './constants/constant'
-import { Editor } from './components/editor'
 import { useState } from 'react'
-import { CreatePage } from './components/create-page'
 import { PageList } from './components/page-list'
+import { PagePreview } from './components/page-preview'
+import type { Page } from './types/page.types'
 
 function App() {
-  const [pageOpened, setPageOpened] = useState()
+  const [pageOpened, setPageOpened] = useState<Page['id']>()
+
   return (
     <div className="w-full h-full bg-slate-800 text-slate-300 flex flex-col">
       <header className="bg-slate-600 h-[45px] text-base py-1 px-2 flex items-center">
@@ -78,13 +80,17 @@ function App() {
             </ul>
             <div className="w-full px-4 my-3 flex-1 overflow-y-auto overflow-x-hidden">
               <div className="font-medium">{HOME_NAME}</div>
-              <PageList />
+              <PageList
+                onPageSelect={({ id }) => {
+                  setPageOpened(id)
+                }}
+              />
             </div>
           </div>
         </div>
         <main className="w-full h-full py-2">
           {pageOpened ? (
-            <Editor content={'<h1>Untitled</h1>'} className="px-2 py-3 overflow-auto w-full h-full" />
+            <PagePreview pageId={pageOpened} />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
               <p className="text-base">Select a file from the sidebar</p>
