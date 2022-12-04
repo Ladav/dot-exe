@@ -15,7 +15,7 @@ export default function Editor({ content, ...editorContentProps }: EditorProps) 
       },
     },
     onUpdate: ({ editor }) => {
-      console.log(editor.getHTML())
+      // console.log(editor.getHTML())
     },
   })
 
