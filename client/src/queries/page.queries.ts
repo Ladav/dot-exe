@@ -11,12 +11,12 @@ export async function getAllPages() {
   return data
 }
 
-export async function getPageById(id: number) {
+export async function getPageById(id: number | string) {
   const { data } = await apiClient.get(`/page/${id}`)
   return data
 }
 
-export async function updatePageById(id: number, dto: UpdatePageDto) {
+export async function updatePageById(id: number | string, dto: UpdatePageDto) {
   const { data } = await apiClient.patch(`/page/${id}`, dto)
   return data
 }

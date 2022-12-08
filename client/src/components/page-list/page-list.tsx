@@ -1,12 +1,9 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { getAllPages } from '../../queries/page.queries'
 import { Page } from '../../types/page.types'
 
-export type PageListProps = {
-  onPageSelect: (page: Pick<Page, 'id'>) => void
-}
-
-export default function PageList({ onPageSelect }: PageListProps) {
+export default function PageList() {
   const [pages, setPages] = useState<Page[]>()
   useEffect(() => {
     getAllPages().then((data) => setPages(data))
@@ -18,14 +15,9 @@ export default function PageList({ onPageSelect }: PageListProps) {
         <>
           {pages.map((page) => (
             <li key={page.id} className="icon-container !justify-start w-full !px-2 text-sm !py-0.5">
-              <button
-                className="w-full text-start"
-                onClick={() => {
-                  onPageSelect(page)
-                }}
-              >
+              <Link className="w-full text-start" to={`/page/${page.id}`}>
                 {page.title}
-              </button>
+              </Link>
             </li>
           ))}
         </>
