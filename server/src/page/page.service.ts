@@ -12,11 +12,23 @@ export class PageService {
   }
 
   findAll() {
-    return this.prisma.page.findMany();
+    return this.prisma.page.findMany({
+      orderBy: {
+        createdAt: 'asc',
+      },
+    });
   }
 
-  findOne(id: number) {
-    return this.prisma.page.findFirst({ where: { id } });
+  async findOne(id: number) {
+    try {
+      const page = await this.prisma.page.findFirst({ where: { id } });
+      return page;
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        throw new BadGatewayException(error.meta?.cause);
+      }
+      throw new InternalServerErrorException();
+    }
   }
 
   async update(id: number, updatePageDto: UpdatePageDto) {
