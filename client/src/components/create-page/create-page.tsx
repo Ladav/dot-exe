@@ -1,4 +1,5 @@
 import React from 'react'
+import { useMutation } from 'react-query'
 import { createPage } from '../../queries/page.queries'
 
 export interface CreatePageProps {
@@ -6,14 +7,11 @@ export interface CreatePageProps {
 }
 
 export default function CreatePage({ trigger }: CreatePageProps) {
-  function createNewPage() {
-    createPage({ content: '', title: 'Untitled' }).then(() => {
-      alert('page created')
-    })
-  }
+  const createPageM = useMutation(createPage)
+
   return React.cloneElement(trigger, {
     onClick: () => {
-      createNewPage()
+      createPageM.mutate({ content: '', title: 'Untitled' })
     },
   })
 }

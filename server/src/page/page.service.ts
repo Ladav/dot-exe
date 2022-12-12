@@ -21,7 +21,7 @@ export class PageService {
 
   async findOne(id: number) {
     try {
-      const page = await this.prisma.page.findFirst({ where: { id } });
+      const page = await this.prisma.page.findFirstOrThrow({ where: { id } });
       return page;
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
