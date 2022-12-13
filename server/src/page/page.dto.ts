@@ -1,8 +1,9 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { IsString } from 'class-validator';
+import { IsString, MinLength } from 'class-validator';
 
 export class CreatePageDto {
   @IsString()
+  @MinLength(1)
   title: string;
 
   @IsString()

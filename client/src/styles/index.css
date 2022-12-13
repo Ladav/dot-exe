@@ -11,6 +11,16 @@ body,
   @apply p-1.5 hover:bg-slate-100 hover:bg-opacity-25 focus:bg-slate-100 focus:bg-opacity-25 outline-none text-slate-300 hover:text-slate-50 cursor-pointer rounded-lg flex items-center justify-center;
 }
 
+.primary-btn {
+  @apply inline-flex justify-center rounded-md border border-transparent bg-slate-500 px-3 py-1.5 text-sm font-medium text-slate-100 hover:bg-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2;
+}
+.secondary-btn {
+  @apply inline-flex justify-center rounded-md border border-transparent bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-900 hover:bg-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2;
+}
+.warning-btn {
+  @apply inline-flex justify-center rounded-md border border-transparent bg-red-100 px-3 py-1.5 text-sm font-medium text-red-700 hover:bg-red-500 hover:text-red-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2;
+}
+
 /* Scrollbar Style when Screen > Tab || lg */
 @media (min-width: 768px) {
   *::-webkit-scrollbar-track {
