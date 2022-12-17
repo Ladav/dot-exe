@@ -1,11 +1,22 @@
 import { range } from 'radash'
 import { useMemo } from 'react'
-import { useQuery } from 'react-query'
+import { QueryFunctionContext, useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
+import { SortOrder } from '../../enums/sort-order.enum'
 import { getAllPages } from '../../queries/page.queries'
 
+const defaultOptions: Parameters<typeof getAllPages>[0] = {
+  sortOrder: SortOrder.FILE_A_TO_Z,
+}
+
 export default function PageList() {
-  const pagesQ = useQuery(['pages'], getAllPages)
+  const pagesQ = useQuery(
+    ['pages-list', defaultOptions],
+    ({ queryKey }: QueryFunctionContext<[string, Parameters<typeof getAllPages>[0]]>) => {
+      const [, params] = queryKey
+      return getAllPages(params)
+    },
+  )
 
   return (
     <ul className="mt-2 w-full">

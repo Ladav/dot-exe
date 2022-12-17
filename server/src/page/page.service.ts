@@ -1,7 +1,9 @@
 import { PrismaService } from './../prisma/prisma.service';
 import { BadGatewayException, BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
-import { CreatePageDto, UpdatePageDto } from './page.dto';
+import { CreatePageDto, FilterPageDto, UpdatePageDto } from './page.dto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
+import { Prisma } from '@prisma/client';
+import { SortOrder } from 'src/common/enums/sort-order.enum';
 
 @Injectable()
 export class PageService {
@@ -11,12 +13,21 @@ export class PageService {
     return this.prisma.page.create({ data: createPageDto });
   }
 
-  findAll() {
-    return this.prisma.page.findMany({
-      orderBy: {
-        createdAt: 'asc',
-      },
-    });
+  findAll(filterPageDto: FilterPageDto) {
+    const query: Prisma.PageFindManyArgs = {};
+    if (filterPageDto.sortOrder) {
+      switch (filterPageDto.sortOrder) {
+        case SortOrder.FILE_A_TO_Z:
+          query.orderBy = {
+            title: 'desc',
+          };
+        case SortOrder.FILE_Z_TO_A:
+          query.orderBy = {
+            title: 'asc',
+          };
+      }
+    }
+    return this.prisma.page.findMany(query);
   }
 
   async findOne(id: number) {

@@ -1,5 +1,6 @@
+import { SortOrder } from '../common/enums/sort-order.enum';
 import { PartialType } from '@nestjs/mapped-types';
-import { IsString, MinLength } from 'class-validator';
+import { IsEnum, IsString, MinLength } from 'class-validator';
 
 export class CreatePageDto {
   @IsString()
@@ -11,3 +12,8 @@ export class CreatePageDto {
 }
 
 export class UpdatePageDto extends PartialType(CreatePageDto) {}
+
+export class FilterPageDto {
+  @IsEnum(SortOrder, { message: `Sort order must be one of the following ${Object.keys(SortOrder).join(', ')}` })
+  sortOrder: SortOrder;
+}

@@ -1,3 +1,5 @@
+import { SortOrder } from '../enums/sort-order.enum'
+
 export interface Page {
   id: number
   createdAt: string
@@ -9,3 +11,7 @@ export interface Page {
 export interface CreatePageDto extends Pick<Page, 'title' | 'content'> {}
 
 export interface UpdatePageDto extends Partial<CreatePageDto> {}
+
+export interface FilterPageDto {
+  sortOrder: SortOrder
+}

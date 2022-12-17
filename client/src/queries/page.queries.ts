@@ -1,4 +1,4 @@
-import { CreatePageDto, Page, UpdatePageDto } from './../types/page.types'
+import { CreatePageDto, FilterPageDto, Page, UpdatePageDto } from './../types/page.types'
 import { apiClient } from '../constants/client'
 
 export async function createPage(dto: CreatePageDto) {
@@ -6,8 +6,8 @@ export async function createPage(dto: CreatePageDto) {
   return data
 }
 
-export async function getAllPages() {
-  const { data } = await apiClient.get<Page[]>('/page')
+export async function getAllPages(params: FilterPageDto) {
+  const { data } = await apiClient.get<Page[]>('/page', { params })
   return data
 }
 

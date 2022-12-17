@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Query } from '@nestjs/common';
 import { PageService } from './page.service';
-import { CreatePageDto, UpdatePageDto } from './page.dto';
+import { CreatePageDto, FilterPageDto, UpdatePageDto } from './page.dto';
 
 @Controller('page')
 export class PageController {
@@ -12,8 +12,8 @@ export class PageController {
   }
 
   @Get()
-  findAll() {
-    return this.pageService.findAll();
+  findAll(@Query() filterPageDto: FilterPageDto) {
+    return this.pageService.findAll(filterPageDto);
   }
 
   @Get(':id')
