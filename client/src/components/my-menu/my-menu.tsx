@@ -1,4 +1,4 @@
-import { Menu } from '@headlessui/react'
+import { Menu, Transition } from '@headlessui/react'
 import clsx from 'clsx'
 import React, { Fragment } from 'react'
 import { BsCheck2 } from 'react-icons/bs'
@@ -21,14 +21,24 @@ export default function MyMenu({ trigger, items, activeId }: MyMenuProps) {
   return (
     <Menu as="div" className="relative">
       <Menu.Button as={Fragment}>{React.cloneElement(trigger)}</Menu.Button>
-      <Menu.Items className="fixed text-sm flex-col flex bg-slate-800 z-10 outline-1 outline outline-slate-500 text-slate-50 rounded-md min-w-48 shadow p-2">
-        {items.map((item) => {
-          if (item.isDivider) {
-            return <DividerItem key={item.id} item={item} />
-          }
-          return <MenuItem key={item.id} item={item} activeId={activeId} />
-        })}
-      </Menu.Items>
+      <Transition
+        as={Fragment}
+        enter="transition ease-out duration-100"
+        enterFrom="transform opacity-0 scale-95"
+        enterTo="transform opacity-100 scale-100"
+        leave="transition ease-in duration-75"
+        leaveFrom="transform opacity-100 scale-100"
+        leaveTo="transform opacity-0 scale-95"
+      >
+        <Menu.Items className="fixed text-sm flex-col flex bg-slate-800 z-10 outline-1 outline outline-slate-500 text-slate-50 rounded-md min-w-48 shadow p-2">
+          {items.map((item) => {
+            if (item.isDivider) {
+              return <DividerItem key={item.id} item={item} />
+            }
+            return <MenuItem key={item.id} item={item} activeId={activeId} />
+          })}
+        </Menu.Items>
+      </Transition>
     </Menu>
   )
 }
