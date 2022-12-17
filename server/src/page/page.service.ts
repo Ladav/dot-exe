@@ -27,6 +27,18 @@ export class PageService {
         case SortOrder.FILE_Z_TO_A:
           query.orderBy = { title: 'desc' };
           break;
+        case SortOrder.MODIFIED_NEW_TO_OLD:
+          query.orderBy = { updatedAt: 'asc' };
+          break;
+        case SortOrder.MODIFIED_OLD_TO_NEW:
+          query.orderBy = { updatedAt: 'desc' };
+          break;
+        case SortOrder.CREATED_NEW_TO_OLD:
+          query.orderBy = { createdAt: 'asc' };
+          break;
+        case SortOrder.CREATED_OLD_TO_NEW:
+          query.orderBy = { createdAt: 'desc' };
+          break;
         default:
           query.orderBy = { title: 'asc' };
       }
