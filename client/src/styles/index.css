@@ -8,7 +8,7 @@ body,
 }
 
 .icon-container {
-  @apply p-1.5 hover:bg-slate-100 hover:bg-opacity-25 focus:bg-slate-100 focus:bg-opacity-25 outline-none text-slate-300 hover:text-slate-50 cursor-pointer rounded-lg flex items-center justify-center;
+  @apply p-1.5 hover:bg-slate-100 hover:bg-opacity-25 focus:bg-slate-100 focus:bg-opacity-25 outline-none text-slate-300 hover:text-slate-50 cursor-pointer rounded-lg flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400;
 }
 
 .primary-btn {
