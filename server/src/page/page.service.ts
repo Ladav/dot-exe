@@ -18,13 +18,13 @@ export class PageService {
     if (filterPageDto.sortOrder) {
       switch (filterPageDto.sortOrder) {
         case SortOrder.FILE_A_TO_Z:
-          query.orderBy = {
-            title: 'desc',
-          };
+          query.orderBy = { title: 'asc' };
+          break;
         case SortOrder.FILE_Z_TO_A:
-          query.orderBy = {
-            title: 'asc',
-          };
+          query.orderBy = { title: 'desc' };
+          break;
+        default:
+          query.orderBy = { title: 'asc' };
       }
     }
     return this.prisma.page.findMany(query);

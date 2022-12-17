@@ -13,5 +13,5 @@ export interface CreatePageDto extends Pick<Page, 'title' | 'content'> {}
 export interface UpdatePageDto extends Partial<CreatePageDto> {}
 
 export interface FilterPageDto {
-  sortOrder: SortOrder
+  sortOrder?: SortOrder
 }
