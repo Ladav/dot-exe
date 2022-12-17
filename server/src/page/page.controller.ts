@@ -11,9 +11,9 @@ export class PageController {
     return this.pageService.create(createPageDto);
   }
 
-  @Get()
-  findAll(@Query() filterPageDto: FilterPageDto) {
-    return this.pageService.findAll(filterPageDto);
+  @Get('list')
+  pageList(@Query() filterPageDto: FilterPageDto) {
+    return this.pageService.pageList(filterPageDto);
   }
 
   @Get(':id')

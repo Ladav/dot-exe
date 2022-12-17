@@ -13,7 +13,11 @@ export class PageService {
     return this.prisma.page.create({ data: createPageDto });
   }
 
-  findAll(filterPageDto: FilterPageDto) {
+  findAll(query: Prisma.PageFindManyArgs) {
+    return this.prisma.page.findMany(query);
+  }
+
+  pageList(filterPageDto: FilterPageDto) {
     const query: Prisma.PageFindManyArgs = {};
     if (filterPageDto.sortOrder) {
       switch (filterPageDto.sortOrder) {
@@ -27,7 +31,10 @@ export class PageService {
           query.orderBy = { title: 'asc' };
       }
     }
-    return this.prisma.page.findMany(query);
+
+    query.select = { id: true, title: true };
+
+    return this.findAll(query);
   }
 
   async findOne(id: number) {

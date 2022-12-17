@@ -4,16 +4,16 @@ import { QueryFunctionContext, useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import { SortOrder } from '../../enums/sort-order.enum'
 import usePersistedState from '../../hooks/use-persisted-state'
-import { getAllPages } from '../../queries/page.queries'
+import { getPageList } from '../../queries/page.queries'
 
 export default function PageList() {
   const [sortOrder] = usePersistedState<SortOrder>('sortOrder', SortOrder.FILE_A_TO_Z)
 
   const pagesQ = useQuery(
     ['pages-list', { sortOrder }],
-    ({ queryKey }: QueryFunctionContext<[string, Parameters<typeof getAllPages>[0]]>) => {
+    ({ queryKey }: QueryFunctionContext<[string, Parameters<typeof getPageList>[0]]>) => {
       const [, params] = queryKey
-      return getAllPages(params)
+      return getPageList(params)
     },
   )
 
