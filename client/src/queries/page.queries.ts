@@ -20,3 +20,7 @@ export async function updatePageById({ id, dto }: { id: number | string; dto: Up
   const { data } = await apiClient.patch<Page>(`/page/${id}`, dto)
   return data
 }
+
+export async function deletePageById(id: number | string) {
+  await apiClient.delete(`/page/${id}`)
+}
