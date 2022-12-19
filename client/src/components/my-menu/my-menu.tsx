@@ -14,7 +14,7 @@ type MenuItem = {
 export type MyMenuProps = {
   trigger: React.ReactElement
   items: MenuItem[]
-  activeId: MenuItem['id']
+  activeId?: MenuItem['id']
 }
 
 export default function MyMenu({ trigger, items, activeId }: MyMenuProps) {
@@ -30,7 +30,7 @@ export default function MyMenu({ trigger, items, activeId }: MyMenuProps) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="fixed text-sm flex-col flex bg-slate-800 z-10 outline-1 outline outline-slate-500 text-slate-50 rounded-md min-w-48 shadow p-2">
+        <Menu.Items className="fixed text-sm flex-col flex bg-slate-800 z-10 outline-1 outline outline-slate-500 text-slate-50 rounded-md min-w-[156px] shadow p-2">
           {items.map((item) => {
             if (item.isDivider) {
               return <DividerItem key={item.id} item={item} />
