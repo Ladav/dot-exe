@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@headlessui/react': ^1.7.5
+  '@headlessui/react': ^1.7.7
   '@tailwindcss/typography': ^0.5.8
   '@tiptap/react': 2.0.0-beta.202
   '@tiptap/starter-kit': 2.0.0-beta.202
@@ -33,7 +33,7 @@ specifiers:
   vite: ^3.2.3
 
 dependencies:
-  '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
+  '@headlessui/react': 1.7.7_biqbaboplfbrettd7655fr4n2y
   '@tiptap/react': 2.0.0-beta.202_biqbaboplfbrettd7655fr4n2y
   '@tiptap/starter-kit': 2.0.0-beta.202
   axios: 1.2.0
@@ -384,8 +384,8 @@ packages:
       - supports-color
     dev: true
 
-  /@headlessui/react/1.7.5_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-UZSxOfA0CYKO7QDT5OGlFvesvlR1SKkawwSjwQJwt7XQItpzRKdE3ZUQxHcg4LEz3C0Wler2s9psdb872ynwrQ==}
+  /@headlessui/react/1.7.7_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-BqDOd/tB9u2tA0T3Z0fn18ktw+KbVwMnkxxsGPIH2hzssrQhKB5n/6StZOyvLYP/FsYtvuXfi9I0YowKPv2c1w==}
     engines: {node: '>=10'}
     peerDependencies:
       react: ^16 || ^17 || ^18
