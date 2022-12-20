@@ -19,7 +19,7 @@ const router = createBrowserRouter(
           redirect('/not-found')
         }}
         element={<PagePreview />}
-        errorElement={<PagePreview.ErrorElement />}
+        // errorElement={<PagePreview.ErrorElement />}
       />
       <Route path="/" element={<PagePreview.PagePreviewPlaceholder />} />
       <Route path="*" element={<NotFound />} />
