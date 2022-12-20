@@ -9,6 +9,7 @@ export interface MyEditorProps extends Pick<EditorContentProps, 'className'> {
 
 export default function MyEditor({ onUpdate, content, ...editorContentProps }: MyEditorProps) {
   const editor = useEditor({
+    autofocus: true,
     extensions: [StarterKit],
     content,
     editorProps: {
