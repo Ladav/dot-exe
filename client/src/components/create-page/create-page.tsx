@@ -2,6 +2,10 @@ import React, { Fragment, useCallback, useState } from 'react'
 import { useMutation } from 'react-query'
 import { Dialog, Transition } from '@headlessui/react'
 import { createPage } from '../../queries/page.queries'
+import { queryClient } from '../../constants/client'
+import { TbLoader } from 'react-icons/tb'
+import clsx from 'clsx'
+import { Button } from '../button'
 
 export interface CreatePageProps {
   trigger: React.ReactElement
@@ -12,14 +16,15 @@ export default function CreatePage({ trigger }: CreatePageProps) {
   const [titleInput, setTitleInput] = useState('')
   const createPageM = useMutation(createPage, {
     onSuccess: () => {
+      setTitleInput('')
       setIsOpen(false)
+      queryClient.invalidateQueries(['page-list'])
     },
   })
 
   const onCreate = useCallback(
     (title: string) => {
       createPageM.mutate({ content: '', title })
-      setTitleInput('')
     },
     [createPageM],
   )
@@ -67,23 +72,24 @@ export default function CreatePage({ trigger }: CreatePageProps) {
                       }}
                     />
 
-                    <button
-                      type="button"
-                      className="primary-btn mr-4"
-                      disabled={createPageM.isLoading}
+                    <Button
+                      className={clsx(
+                        'primary-btn mr-4 translate transition-all duration-150',
+                        createPageM.isLoading && 'hover:cursor-none',
+                      )}
+                      isLoading={createPageM.isLoading}
                       onClick={() => onCreate(titleInput)}
                     >
-                      Create
-                    </button>
+                      <span className={clsx(createPageM.isLoading && 'ml-2')}>Create</span>
+                    </Button>
 
-                    <button
-                      type="button"
-                      className="secondary-btn"
+                    <Button
+                      className={clsx('primary-btn', createPageM.isLoading && 'hover:cursor-none')}
                       disabled={createPageM.isLoading}
                       onClick={() => setIsOpen(false)}
                     >
                       Cancel
-                    </button>
+                    </Button>
                   </Dialog.Panel>
                 </Transition.Child>
               </div>
