@@ -4,6 +4,8 @@ import Text from '@tiptap/extension-text'
 import Paragraph from '@tiptap/extension-paragraph'
 import TaskList from '@tiptap/extension-task-list'
 import TaskItem from '@tiptap/extension-task-item'
+import History from '@tiptap/extension-history'
+import Heading from '@tiptap/extension-heading'
 
 type EditorOptionsType = Exclude<Parameters<typeof useEditor>['0'], undefined>
 export interface MyEditorProps extends Pick<EditorContentProps, 'className'> {
@@ -22,6 +24,8 @@ export default function MyEditor({ onUpdate, content, ...editorContentProps }: M
       TaskItem.configure({
         nested: true,
       }),
+      History,
+      Heading,
     ],
     content,
     editorProps: {
