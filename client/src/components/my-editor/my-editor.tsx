@@ -1,14 +1,14 @@
 import { useEditor, EditorContent, EditorContentProps } from '@tiptap/react'
-import type { EditorOptions } from '@tiptap/react'
 import Document from '@tiptap/extension-document'
 import Text from '@tiptap/extension-text'
 import Paragraph from '@tiptap/extension-paragraph'
 import TaskList from '@tiptap/extension-task-list'
 import TaskItem from '@tiptap/extension-task-item'
 
+type EditorOptionsType = Exclude<Parameters<typeof useEditor>['0'], undefined>
 export interface MyEditorProps extends Pick<EditorContentProps, 'className'> {
-  content: EditorOptions['content']
-  onUpdate: EditorOptions['onUpdate']
+  content: EditorOptionsType['content']
+  onUpdate: EditorOptionsType['onUpdate']
 }
 
 export default function MyEditor({ onUpdate, content, ...editorContentProps }: MyEditorProps) {
