@@ -1,4 +1,5 @@
-import { useEditor, EditorContent, EditorContentProps, EditorOptions } from '@tiptap/react'
+import { useEditor, EditorContent, EditorContentProps } from '@tiptap/react'
+import type { EditorOptions } from '@tiptap/react'
 import Document from '@tiptap/extension-document'
 import Text from '@tiptap/extension-text'
 import Paragraph from '@tiptap/extension-paragraph'
