@@ -1,5 +1,4 @@
-import { useEditor, EditorContent, Content, EditorContentProps } from '@tiptap/react'
-import type { Editor } from '@tiptap/react'
+import { useEditor, EditorContent, EditorContentProps, EditorOptions } from '@tiptap/react'
 import Document from '@tiptap/extension-document'
 import Text from '@tiptap/extension-text'
 import Paragraph from '@tiptap/extension-paragraph'
@@ -7,8 +6,8 @@ import TaskList from '@tiptap/extension-task-list'
 import TaskItem from '@tiptap/extension-task-item'
 
 export interface MyEditorProps extends Pick<EditorContentProps, 'className'> {
-  content?: Content
-  onUpdate: Editor['options']['onUpdate']
+  content: EditorOptions['content']
+  onUpdate: EditorOptions['onUpdate']
 }
 
 export default function MyEditor({ onUpdate, content, ...editorContentProps }: MyEditorProps) {
