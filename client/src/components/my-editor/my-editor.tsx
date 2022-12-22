@@ -10,7 +10,6 @@ import Typography from '@tiptap/extension-typography'
 import EmojiReplacer from './custom-plugins/emoji-replacer'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { lowlight } from 'lowlight'
-import CodeBlockLanguage from './component/code-block-language'
 
 type EditorOptionsType = Exclude<Parameters<typeof useEditor>['0'], undefined>
 export interface MyEditorProps extends Pick<EditorContentProps, 'className'> {
