@@ -6,6 +6,8 @@ import TaskList from '@tiptap/extension-task-list'
 import TaskItem from '@tiptap/extension-task-item'
 import History from '@tiptap/extension-history'
 import Heading from '@tiptap/extension-heading'
+import Typography from '@tiptap/extension-typography'
+import EmojiReplacer from './custom-plugins/emoji-replacer'
 
 type EditorOptionsType = Exclude<Parameters<typeof useEditor>['0'], undefined>
 export interface MyEditorProps extends Pick<EditorContentProps, 'className'> {
@@ -26,6 +28,8 @@ export default function MyEditor({ onUpdate, content, ...editorContentProps }: M
       }),
       History,
       Heading,
+      Typography,
+      EmojiReplacer,
     ],
     content,
     editorProps: {
