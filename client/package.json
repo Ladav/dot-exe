@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.7",
+    "@tiptap/extension-code-block-lowlight": "2.0.0-beta.209",
     "@tiptap/extension-document": "2.0.0-beta.209",
     "@tiptap/extension-heading": "2.0.0-beta.209",
     "@tiptap/extension-history": "2.0.0-beta.209",
@@ -22,6 +23,7 @@
     "@tiptap/react": "2.0.0-beta.209",
     "axios": "^1.2.0",
     "clsx": "^1.2.1",
+    "lowlight": "^2.8.0",
     "radash": "^9.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

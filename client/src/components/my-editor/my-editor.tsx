@@ -1,4 +1,4 @@
-import { useEditor, EditorContent, EditorContentProps } from '@tiptap/react'
+import { useEditor, EditorContent, EditorContentProps, ReactNodeViewRenderer } from '@tiptap/react'
 import Document from '@tiptap/extension-document'
 import Text from '@tiptap/extension-text'
 import Paragraph from '@tiptap/extension-paragraph'
@@ -8,6 +8,9 @@ import History from '@tiptap/extension-history'
 import Heading from '@tiptap/extension-heading'
 import Typography from '@tiptap/extension-typography'
 import EmojiReplacer from './custom-plugins/emoji-replacer'
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import { lowlight } from 'lowlight'
+import CodeBlockLanguage from './component/code-block-language'
 
 type EditorOptionsType = Exclude<Parameters<typeof useEditor>['0'], undefined>
 export interface MyEditorProps extends Pick<EditorContentProps, 'className'> {
@@ -30,6 +33,9 @@ export default function MyEditor({ onUpdate, content, ...editorContentProps }: M
       Heading,
       Typography,
       EmojiReplacer,
+      CodeBlockLowlight.configure({
+        lowlight,
+      }),
     ],
     content,
     editorProps: {
