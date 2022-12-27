@@ -1,4 +1,4 @@
-import { CreatePageDto, FilterPageDto, Page, PageListItem, UpdatePageDto } from './../types/page.types'
+import { CreatePageDto, FilterPageDto, Page, PageListItem, RenamePageDto, UpdatePageDto } from './../types/page.types'
 import { apiClient } from '../constants/client'
 
 export async function createPage(dto: CreatePageDto) {
@@ -14,6 +14,10 @@ export async function getPageList(params: FilterPageDto) {
 export async function getPageById(id: number | string) {
   const { data } = await apiClient.get<Page>(`/page/${id}`)
   return data
+}
+
+export async function renamePageById({ id, dto }: { id: number | string; dto: RenamePageDto }) {
+  await apiClient.patch(`/page/rename/${id}`, dto)
 }
 
 export async function updatePageById({ id, dto }: { id: number | string; dto: UpdatePageDto }) {

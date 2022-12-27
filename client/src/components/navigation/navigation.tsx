@@ -3,10 +3,12 @@ import { Home } from '../../pages/home'
 import { getPageById } from '../../queries/page.queries'
 import { NotFound } from '../not-found'
 import { PagePreview } from '../page-preview'
+import { RenamePage } from '../rename-page'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Home />}>
+      <Route path="page/rename/:pageId" element={<RenamePage />} />
       <Route
         path="page/:pageId"
         loader={async ({ params }) => {
@@ -19,7 +21,7 @@ const router = createBrowserRouter(
           redirect('/not-found')
         }}
         element={<PagePreview />}
-        // errorElement={<PagePreview.ErrorElement />}
+        errorElement={<PagePreview.ErrorElement />}
       />
       <Route path="/" element={<PagePreview.PagePreviewPlaceholder />} />
       <Route path="*" element={<NotFound />} />

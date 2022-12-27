@@ -138,12 +138,12 @@ function ListItem({ activePageId, page, onDelete }: ListItemProps) {
             <span>Open to the right</span>
           </span>
         </Link>
-        <button className="my-menu-item">
+        <Link className="my-menu-item" to={`/page/rename/${page.id}`}>
           <span className="flex gap-x-2 items-center">
             <FiEdit3 />
             <span>Rename</span>
           </span>
-        </button>
+        </Link>
         <button className="my-menu-item" onClick={handleDeletePage}>
           <span className="hover:text-red-500 flex gap-x-2 items-center">
             <RiDeleteBin5Line className="transition-all duration-150" />
