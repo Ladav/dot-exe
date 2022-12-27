@@ -4,13 +4,14 @@ import { useMutation, useQuery } from 'react-query'
 import { Link, useParams } from 'react-router-dom'
 import clsx from 'clsx'
 import { RiDeleteBin5Line } from 'react-icons/ri'
+import { AiOutlineRight } from 'react-icons/ai'
 import { toast } from 'react-hot-toast'
-import { Item, Menu, Separator, useContextMenu } from 'react-contexify'
+import { Menu, useContextMenu } from 'react-contexify'
 import { SortOrder } from '../../enums/sort-order.enum'
 import usePersistedState from '../../hooks/use-persisted-state'
 import { deletePageById, getPageList } from '../../queries/page.queries'
 import { queryClient } from '../../constants/client'
-import { MySeparator } from '../my-separator'
+import { FiEdit3 } from 'react-icons/fi'
 
 export default function PageList() {
   const { pageId } = useParams() as { pageId: string }
@@ -82,11 +83,21 @@ function ListItem({ activePageId, page, onDelete }: ListItemProps) {
   const MENU_ID = `page-menu-${page.id}`
   const { show } = useContextMenu({
     id: MENU_ID,
+    props: {
+      pageId: page.id,
+    },
   })
 
-  function displayMenu(event: MouseEvent<HTMLLIElement>) {
-    show({ event })
-  }
+  const displayMenu = useCallback(
+    (event: MouseEvent<HTMLLIElement>) => {
+      show({ event })
+    },
+    [show],
+  )
+
+  const handleDeletePage = useCallback(() => {
+    onDelete(page.id)
+  }, [onDelete, page.id])
 
   return (
     <>
@@ -106,7 +117,7 @@ function ListItem({ activePageId, page, onDelete }: ListItemProps) {
               onClick={(event: MouseEvent<SVGElement>) => {
                 event.preventDefault()
                 event.stopPropagation()
-                onDelete(page.id)
+                handleDeletePage()
               }}
             />
           </span>
@@ -119,13 +130,26 @@ function ListItem({ activePageId, page, onDelete }: ListItemProps) {
         onVisibilityChange={(isVisible) => {
           setIsMenuOpen(isVisible)
         }}
-        className="text-sm mt-1 bg-slate-800 outline-1 outline outline-slate-500 rounded-md w-[176px] shadow p-2"
+        className="my-menu-container"
       >
-        <Item>Open to the right</Item>
-        <MySeparator />
-        <Item>Rename</Item>
-        <MySeparator />
-        <Item>Delete</Item>
+        <Link className="my-menu-item" to={`/page/${page.id}`}>
+          <span className="flex gap-x-2 items-center">
+            <AiOutlineRight className="transition-all duration-150" />
+            <span>Open to the right</span>
+          </span>
+        </Link>
+        <button className="my-menu-item">
+          <span className="flex gap-x-2 items-center">
+            <FiEdit3 />
+            <span>Rename</span>
+          </span>
+        </button>
+        <button className="my-menu-item" onClick={handleDeletePage}>
+          <span className="hover:text-red-500 flex gap-x-2 items-center">
+            <RiDeleteBin5Line className="transition-all duration-150" />
+            <span>Delete</span>
+          </span>
+        </button>
       </Menu>
     </>
   )

@@ -31,7 +31,7 @@ export default function MyMenu({ trigger, items, activeId }: MyMenuProps) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="fixed text-sm flex-col flex bg-slate-800 z-10 outline-1 outline outline-slate-500 text-slate-50 rounded-md min-w-[156px] shadow p-2">
+        <Menu.Items className="fixed my-menu-container">
           {items.map((item) => {
             if (item.isDivider) {
               return <DividerItem key={item.id} item={item} />
@@ -60,15 +60,7 @@ function DividerItem({ item }: { item: MenuItem }) {
 
 function MenuItem({ item, activeId }: { item: MenuItem; activeId: MyMenuProps['activeId'] }) {
   return (
-    <Menu.Item
-      key={item.id}
-      as="button"
-      className={clsx(
-        'px-3 w-full py-1 text-left hover:bg-slate-700 rounded-sm flex items-center justify-between gap-2',
-        item.className,
-      )}
-      onClick={item.onClick}
-    >
+    <Menu.Item key={item.id} as="button" className={clsx('my-menu-item', item.className)} onClick={item.onClick}>
       {item.label}
       {item.id === activeId && <BsCheck2 className="text-lg" />}
     </Menu.Item>
