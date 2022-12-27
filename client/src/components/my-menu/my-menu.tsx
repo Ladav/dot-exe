@@ -2,6 +2,7 @@ import { Menu, Transition } from '@headlessui/react'
 import clsx from 'clsx'
 import React, { Fragment } from 'react'
 import { BsCheck2 } from 'react-icons/bs'
+import { MySeparator } from '../my-separator'
 
 type MenuItem = {
   id: any
@@ -52,7 +53,7 @@ function DividerItem({ item }: { item: MenuItem }) {
       onClick={item.onClick}
     >
       {item.label}
-      <div className="border-t my-1  border-slate-500 w-full" />
+      <MySeparator />
     </Menu.Item>
   )
 }

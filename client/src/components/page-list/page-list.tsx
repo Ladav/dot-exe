@@ -10,6 +10,7 @@ import { SortOrder } from '../../enums/sort-order.enum'
 import usePersistedState from '../../hooks/use-persisted-state'
 import { deletePageById, getPageList } from '../../queries/page.queries'
 import { queryClient } from '../../constants/client'
+import { MySeparator } from '../my-separator'
 
 export default function PageList() {
   const { pageId } = useParams() as { pageId: string }
@@ -121,9 +122,9 @@ function ListItem({ activePageId, page, onDelete }: ListItemProps) {
         className="text-sm mt-1 bg-slate-800 outline-1 outline outline-slate-500 rounded-md w-[176px] shadow p-2"
       >
         <Item>Open to the right</Item>
-        <Separator />
+        <MySeparator />
         <Item>Rename</Item>
-        <Separator />
+        <MySeparator />
         <Item>Delete</Item>
       </Menu>
     </>
