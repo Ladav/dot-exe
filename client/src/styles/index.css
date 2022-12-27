@@ -1,3 +1,4 @@
+@import 'react-contexify/dist/ReactContexify.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -42,6 +43,15 @@ body,
   *::-webkit-scrollbar-thumb:hover {
     @apply bg-slate-100;
   }
+}
+
+/*****************/
+/* Context Menu */
+/*****************/
+.contexify_theme-dark {
+  --contexify-itemContent-padding: 0.25rem 0.75rem;
+  --contexify-activeItem-radius: 0.125rem;
+  --contexify-activeItem-bgColor: rgb(51 65 85 / var(--tw-bg-opacity));
 }
 
 /*****************/

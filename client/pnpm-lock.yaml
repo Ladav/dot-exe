@@ -32,6 +32,7 @@ specifiers:
   prettier: ^2.7.1
   radash: ^9.5.0
   react: ^18.2.0
+  react-contexify: ^6.0.0
   react-dom: ^18.2.0
   react-hot-toast: ^2.4.0
   react-icons: ^4.6.0
@@ -58,6 +59,7 @@ dependencies:
   lowlight: 2.8.0
   radash: 9.5.0
   react: 18.2.0
+  react-contexify: 6.0.0_biqbaboplfbrettd7655fr4n2y
   react-dom: 18.2.0_react@18.2.0
   react-hot-toast: 2.4.0_owo25xnefcwdq3zjgtohz6dbju
   react-icons: 4.6.0_react@18.2.0
@@ -2769,6 +2771,17 @@ packages:
   /radash/9.5.0:
     resolution: {integrity: sha512-t0s8BJlvrk8YPaOS8X0J2xzqAsBlXAUkDEjoBXwlzaXsXNCpBILjT9OvWlabLa2KB/r4XrhThdXjxMs7SiCyIw==}
     engines: {node: '>=14.18.0'}
+    dev: false
+
+  /react-contexify/6.0.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-jMhz6yZI81Jv3UDj7TXqCkhdkCFEEmvwGCPXsQuA2ZUC8EbCuVQ6Cy8FzKMXa0y454XTDClBN2YFvvmoFlrFkg==}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      clsx: 1.2.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /react-dom/18.2.0_react@18.2.0:
