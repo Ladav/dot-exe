@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Query } from '@nestjs/common';
 import { PageService } from './page.service';
-import { CreatePageDto, FilterPageDto, UpdatePageDto } from './page.dto';
+import { CreatePageDto, FilterPageDto, RenamePageDto, UpdatePageDto } from './page.dto';
 
 @Controller('page')
 export class PageController {
@@ -19,6 +19,11 @@ export class PageController {
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.pageService.findOne(id);
+  }
+
+  @Patch('/rename/:id')
+  rename(@Param('id', ParseIntPipe) id: number, @Body() renamePageDto: RenamePageDto) {
+    return this.pageService.rename(id, renamePageDto);
   }
 
   @Patch(':id')

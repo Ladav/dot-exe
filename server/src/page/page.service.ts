@@ -1,6 +1,6 @@
 import { PrismaService } from './../prisma/prisma.service';
-import { BadGatewayException, BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
-import { CreatePageDto, FilterPageDto, UpdatePageDto } from './page.dto';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { CreatePageDto, FilterPageDto, RenamePageDto, UpdatePageDto } from './page.dto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { Prisma } from '@prisma/client';
 import { SortOrder } from 'src/common/enums/sort-order.enum';
@@ -51,11 +51,11 @@ export class PageService {
 
   async findOne(id: number) {
     try {
-      const page = await this.prisma.page.findFirstOrThrow({ where: { id } });
+      const page = await this.prisma.page.findUniqueOrThrow({ where: { id } });
       return page;
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
-        throw new BadGatewayException(error.meta?.cause);
+        throw new BadRequestException(error.meta?.cause);
       }
       throw new InternalServerErrorException();
     }
@@ -67,7 +67,7 @@ export class PageService {
       return updated;
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
-        throw new BadGatewayException(error.meta?.cause);
+        throw new BadRequestException(error.meta?.cause);
       }
       throw new InternalServerErrorException();
     }
@@ -76,6 +76,17 @@ export class PageService {
   async remove(id: number) {
     try {
       await this.prisma.page.delete({ where: { id } });
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        throw new BadRequestException(error.meta?.cause);
+      }
+      throw new InternalServerErrorException();
+    }
+  }
+
+  async rename(id: number, renamePageDto: RenamePageDto) {
+    try {
+      await this.prisma.page.update({ where: { id }, data: renamePageDto });
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         throw new BadRequestException(error.meta?.cause);

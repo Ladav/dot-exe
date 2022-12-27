@@ -1,5 +1,5 @@
 import { SortOrder } from '../common/enums/sort-order.enum';
-import { PartialType } from '@nestjs/mapped-types';
+import { PartialType, PickType } from '@nestjs/mapped-types';
 import { IsEnum, IsOptional, IsString, MinLength } from 'class-validator';
 
 export class CreatePageDto {
@@ -18,3 +18,5 @@ export class FilterPageDto {
   @IsEnum(SortOrder, { message: `Sort order must be one of the following ${Object.keys(SortOrder).join(', ')}` })
   sortOrder?: SortOrder;
 }
+
+export class RenamePageDto extends PickType(CreatePageDto, ['title'] as const) {}
