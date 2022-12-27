@@ -1,7 +1,6 @@
 import { PrismaService } from './../prisma/prisma.service';
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreatePageDto, FilterPageDto, RenamePageDto, UpdatePageDto } from './page.dto';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { Prisma } from '@prisma/client';
 import { SortOrder } from 'src/common/enums/sort-order.enum';
 
@@ -49,49 +48,19 @@ export class PageService {
     return this.findAll(query);
   }
 
-  async findOne(id: number) {
-    try {
-      const page = await this.prisma.page.findUniqueOrThrow({ where: { id } });
-      return page;
-    } catch (error) {
-      if (error instanceof PrismaClientKnownRequestError) {
-        throw new BadRequestException(error.meta?.cause);
-      }
-      throw new InternalServerErrorException();
-    }
+  findOne(id: number) {
+    return this.prisma.page.findUniqueOrThrow({ where: { id } });
   }
 
-  async update(id: number, updatePageDto: UpdatePageDto) {
-    try {
-      const updated = await this.prisma.page.update({ where: { id }, data: updatePageDto });
-      return updated;
-    } catch (error) {
-      if (error instanceof PrismaClientKnownRequestError) {
-        throw new BadRequestException(error.meta?.cause);
-      }
-      throw new InternalServerErrorException();
-    }
+  update(id: number, updatePageDto: UpdatePageDto) {
+    return this.prisma.page.update({ where: { id }, data: updatePageDto });
   }
 
   async remove(id: number) {
-    try {
-      await this.prisma.page.delete({ where: { id } });
-    } catch (error) {
-      if (error instanceof PrismaClientKnownRequestError) {
-        throw new BadRequestException(error.meta?.cause);
-      }
-      throw new InternalServerErrorException();
-    }
+    await this.prisma.page.delete({ where: { id } });
   }
 
   async rename(id: number, renamePageDto: RenamePageDto) {
-    try {
-      await this.prisma.page.update({ where: { id }, data: renamePageDto });
-    } catch (error) {
-      if (error instanceof PrismaClientKnownRequestError) {
-        throw new BadRequestException(error.meta?.cause);
-      }
-      throw new InternalServerErrorException();
-    }
+    await this.prisma.page.update({ where: { id }, data: renamePageDto });
   }
 }

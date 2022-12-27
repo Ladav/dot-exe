@@ -1,10 +1,18 @@
 import { INestApplication, Injectable, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import { tryCatchPrismaError } from './prisma.utils';
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
+  constructor() {
+    super({
+      log: ['info', 'query', 'warn'],
+    });
+  }
+
   async onModuleInit() {
     await this.$connect();
+    this.$use(tryCatchPrismaError);
   }
 
   async enableShutdownHooks(app: INestApplication) {
