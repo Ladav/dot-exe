@@ -89,25 +89,26 @@ function ListItem({ activePageId, page, onDelete }: ListItemProps) {
 
   return (
     <>
-      <li
-        onContextMenu={displayMenu}
-        key={page.id}
-        className={clsx(
-          'icon-container !justify-start w-full !px-2 text-sm !py-0.5',
-          page.id === +activePageId && 'bg-slate-100 bg-opacity-25',
-          isMenuOpen && 'ring-1 ring-slate-100',
-        )}
-      >
-        <Link className="w-full text-start flex group items-center justify-between" to={`/page/${page.id}`}>
-          <span>{page.title}</span>
-          <RiDeleteBin5Line
-            className="invisible group-hover:visible hover:text-red-500 transition-all duration-150"
-            onClick={(event: MouseEvent<SVGElement>) => {
-              event.preventDefault()
-              event.stopPropagation()
-              onDelete(page.id)
-            }}
-          />
+      <li onContextMenu={displayMenu} key={page.id}>
+        <Link
+          className={clsx(
+            'icon-container !justify-start w-full !px-2 text-sm !py-0.5',
+            page.id === +activePageId && 'bg-slate-100 bg-opacity-25',
+            isMenuOpen && 'outline-none ring-2 ring-slate-400',
+          )}
+          to={`/page/${page.id}`}
+        >
+          <span className="w-full text-start flex group items-center justify-between">
+            <span>{page.title}</span>
+            <RiDeleteBin5Line
+              className="invisible group-hover:visible hover:text-red-500 transition-all duration-150"
+              onClick={(event: MouseEvent<SVGElement>) => {
+                event.preventDefault()
+                event.stopPropagation()
+                onDelete(page.id)
+              }}
+            />
+          </span>
         </Link>
       </li>
 
