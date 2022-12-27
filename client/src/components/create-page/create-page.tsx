@@ -3,7 +3,6 @@ import { useMutation } from 'react-query'
 import { Dialog, Transition } from '@headlessui/react'
 import { createPage } from '../../queries/page.queries'
 import { queryClient } from '../../constants/client'
-import { TbLoader } from 'react-icons/tb'
 import clsx from 'clsx'
 import { Button } from '../button'
 
