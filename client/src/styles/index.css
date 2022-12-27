@@ -58,7 +58,7 @@ body,
 /* Editor */
 /*****************/
 
-/*** Task List ***/
+/*** Task List (checkbox) ***/
 ul[data-type='taskList'] {
   list-style: none;
   padding: 0;
@@ -67,7 +67,7 @@ ul[data-type='taskList'] p {
   margin: 0;
 }
 ul[data-type='taskList'] li {
-  display: flex;
+  @apply flex;
 }
 ul[data-type='taskList'] li > label {
   flex: 0 0 auto;
@@ -76,7 +76,7 @@ ul[data-type='taskList'] li > label {
 }
 ul[data-type='taskList'] li > label > input {
   margin-top: 0.5rem;
-  @apply overflow-hidden appearance-none w-4 h-4 checked:after:content-["🤍"] bg-slate-200 rounded-sm checked:bg-slate-400 checked:text-slate-200 focus:ring-slate-400 focus:ring-2;
+  @apply overflow-hidden appearance-none w-4 h-4 checked:after:content-["🤍"] bg-slate-200 rounded-sm checked:bg-slate-500 checked:text-slate-200 focus:ring-slate-400 focus:ring-2 focus:outline-none;
 }
 ul[data-type='taskList'] li > div {
   flex: 1 1 auto;
