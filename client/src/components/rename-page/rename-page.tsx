@@ -10,7 +10,6 @@ import { MyModal } from '../my-modal'
 export default function RenamePage() {
   const [isOpen, setIsOpen] = useState(true)
   const [titleInput, setTitleInput] = useState('')
-
   const navigate = useNavigate()
   const { pageId } = useParams<{ pageId: string }>()
 
@@ -21,7 +20,6 @@ export default function RenamePage() {
 
   const { isLoading, mutate } = useMutation(renamePageById, {
     onSuccess: () => {
-      setTitleInput('')
       queryClient.invalidateQueries(['page-list'])
       handleModalClose()
     },
