@@ -30,7 +30,12 @@ export default function PagePreview() {
     return <div className="w-full h-full flex items-center justify-center">Loading Content...</div>
   }
 
-  return <MyEditor content={pageData.content} className="px-2 py-3 overflow-auto w-full h-full" onUpdate={onChange} />
+  return (
+    <div>
+      <div className="text-lg text-right mx-auto max-w-4xl px-4 text-slate-500">{pageData.title}</div>
+      <MyEditor content={pageData.content} className="px-2 py-3 overflow-auto w-full h-full" onUpdate={onChange} />
+    </div>
+  )
 }
 
 PagePreview.PagePreviewPlaceholder = function PagePreviewPlaceholder() {

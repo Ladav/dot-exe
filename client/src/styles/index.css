@@ -29,7 +29,10 @@ body,
   @apply px-3 w-full py-1 text-left hover:bg-slate-700 rounded-sm flex items-center justify-between gap-2;
 }
 
-/* Scrollbar Style when Screen > Tab || lg */
+/*****************/
+/* Scrollbar */
+/*****************/
+/*  when Screen > Tab || lg */
 @media (min-width: 768px) {
   *::-webkit-scrollbar-track {
     @apply bg-slate-500 rounded;
@@ -50,6 +53,24 @@ body,
   *::-webkit-scrollbar-thumb:hover {
     @apply bg-slate-100;
   }
+}
+
+/*****************/
+/* Loading Skeleton */
+/*****************/
+@keyframes skeleton-animation {
+  0% {
+    @apply opacity-25;
+  }
+
+  100% {
+    @apply opacity-75;
+  }
+}
+
+.skeleton {
+  @apply bg-gray-300;
+  animation: skeleton-animation infinite alternate linear 500ms;
 }
 
 /*****************/

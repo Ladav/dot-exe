@@ -77,7 +77,7 @@ export default function PageList() {
       {useMemo(() => {
         if (pagesQ.status === 'loading') {
           return [...range(0, 2)].map((idx) => (
-            <li key={idx} className="icon-container !justify-start !px-2 text-sm !py-0.5">
+            <li key={idx} className="icon-container skeleton !justify-start !px-2 text-sm !py-0.5">
               ...
             </li>
           ))
