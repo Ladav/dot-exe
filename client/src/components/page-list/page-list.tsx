@@ -7,11 +7,13 @@ import { RiDeleteBin5Line } from 'react-icons/ri'
 import { AiOutlineRight } from 'react-icons/ai'
 import { toast } from 'react-hot-toast'
 import { Menu, useContextMenu } from 'react-contexify'
+import { FiEdit3 } from 'react-icons/fi'
+import { Popover } from '@headlessui/react'
 import { SortOrder } from '../../enums/sort-order.enum'
 import usePersistedState from '../../hooks/use-persisted-state'
 import { deletePageById, getPageList } from '../../queries/page.queries'
 import { queryClient } from '../../constants/client'
-import { FiEdit3 } from 'react-icons/fi'
+import { Confirm } from '../confirm'
 
 export default function PageList() {
   const { pageId } = useParams() as { pageId: string }
@@ -112,13 +114,14 @@ function ListItem({ activePageId, page, onDelete }: ListItemProps) {
         >
           <span className="w-full text-start flex group items-center justify-between">
             <span>{page.title}</span>
-            <RiDeleteBin5Line
-              className="invisible group-hover:visible hover:text-red-500 transition-all duration-150"
-              onClick={(event: MouseEvent<SVGElement>) => {
-                event.preventDefault()
-                event.stopPropagation()
-                handleDeletePage()
-              }}
+            <Confirm
+              onClick={handleDeletePage}
+              content="Are you sure, you want to delete this page?"
+              popoverButton={
+                <Popover.Button className="icon-container group !px-1 !py-0 !bg-inherit hover:text-red-500 focus:text-red-500">
+                  <RiDeleteBin5Line className="invisible group-hover:visible group-focus:visible" />
+                </Popover.Button>
+              }
             />
           </span>
         </Link>
@@ -144,12 +147,18 @@ function ListItem({ activePageId, page, onDelete }: ListItemProps) {
             <span>Rename</span>
           </span>
         </Link>
-        <button className="my-menu-item" onClick={handleDeletePage}>
-          <span className="hover:text-red-500 flex gap-x-2 items-center">
-            <RiDeleteBin5Line className="transition-all duration-150" />
-            <span>Delete</span>
-          </span>
-        </button>
+        <Confirm
+          onClick={handleDeletePage}
+          content="Are you sure, you want to delete this page?"
+          popoverButton={
+            <Popover.Button className="my-menu-item hover:text-red-500 focus:text-red-500">
+              <span className="flex gap-x-2 items-center">
+                <RiDeleteBin5Line className="transition-all duration-150" />
+                <span>Delete</span>
+              </span>
+            </Popover.Button>
+          }
+        />
       </Menu>
     </>
   )
