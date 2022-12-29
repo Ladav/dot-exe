@@ -1,7 +1,7 @@
 import { range } from 'radash'
 import { MouseEvent, useCallback, useMemo, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import clsx from 'clsx'
 import { RiDeleteBin5Line } from 'react-icons/ri'
 import { AiOutlineRight } from 'react-icons/ai'
@@ -16,9 +16,11 @@ import { queryClient } from '../../constants/client'
 import { Confirm } from '../confirm'
 
 export default function PageList() {
+  const navigate = useNavigate()
   const { pageId } = useParams() as { pageId: string }
   const [sortOrder] = usePersistedState<SortOrder>('sortOrder', SortOrder.FILE_A_TO_Z)
   const pageListQueryKey = ['page-list', { sortOrder }] as const
+
   const pagesQ = useQuery(pageListQueryKey, ({ queryKey }) => {
     const [, params] = queryKey
     return getPageList(params)
@@ -36,11 +38,30 @@ export default function PageList() {
 
       return pages
     },
-    onError: (error, vars, prev) => {
-      queryClient.setQueryData(pageListQueryKey, prev)
+    onError: (error, vars, prevState) => {
+      queryClient.setQueryData(pageListQueryKey, prevState)
     },
-    onSuccess: () => {
+    onSuccess: (data, pageId, prevState) => {
       toast.success('page deleted')
+      const pageIdx = prevState?.findIndex((page) => page.id === +pageId)
+      if (typeof pageIdx !== 'number' || !prevState) {
+        navigate('/page')
+        return
+      }
+
+      const previousPage = prevState[pageIdx - 1]
+      if (previousPage) {
+        navigate(`/page/${previousPage.id}`)
+        return
+      }
+
+      const nextPage = prevState[pageIdx + 1]
+      if (nextPage) {
+        navigate(`/page/${nextPage.id}`)
+        return
+      }
+
+      navigate('/page')
     },
   })
 
