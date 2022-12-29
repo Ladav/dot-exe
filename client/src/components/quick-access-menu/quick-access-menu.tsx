@@ -4,6 +4,7 @@ import { TbEdit } from 'react-icons/tb'
 import clsx from 'clsx'
 import SortOrderMenu from './components/sort-order-menu'
 import { Link } from 'react-router-dom'
+import { ComingSoonFeature } from '../coming-soon'
 
 export type QuickAccessMenuProps = {
   className?: string
@@ -18,9 +19,11 @@ export default function QuickAccessMenu({ className }: QuickAccessMenuProps) {
         </Link>
       </li>
       <li>
-        <button className="icon-container">
-          <FiFolderPlus />
-        </button>
+        <ComingSoonFeature>
+          <button className="icon-container">
+            <FiFolderPlus />
+          </button>
+        </ComingSoonFeature>
       </li>
       <li>
         <SortOrderMenu

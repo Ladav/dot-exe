@@ -14,12 +14,24 @@ export default function Confirm({
   content = 'This action cannot be undone. Would you like to proceed?',
 }: ConfirmProps) {
   return (
-    <Popover className="relative z-50">
-      <Float offset={12} flip arrow portal>
+    <Popover>
+      <Float
+        placement="bottom-start"
+        offset={12}
+        flip={10}
+        arrow
+        portal
+        enter="transition duration-200 ease-out"
+        enterFrom="opacity-0 -translate-y-1"
+        enterTo="opacity-100 translate-y-0"
+        leave="transition duration-150 ease-in"
+        leaveFrom="opacity-100 translate-y-0"
+        leaveTo="opacity-0 -translate-y-1"
+      >
         {popoverButton}
 
         <Popover.Panel
-          className="absolute my-menu-container bg-opacity-25"
+          className="my-menu-container bg-opacity-25"
           onContextMenu={(event: MouseEvent<HTMLDivElement>) => {
             event.preventDefault()
             event.stopPropagation()

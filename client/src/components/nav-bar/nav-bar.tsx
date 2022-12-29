@@ -2,6 +2,7 @@ import { BiMessageSquareEdit } from 'react-icons/bi'
 import { BsFiles } from 'react-icons/bs'
 import { IoSettingsOutline } from 'react-icons/io5'
 import { HOME_NAME } from '../../constants/constant'
+import { ComingSoonFeature } from '../coming-soon'
 import { PageList } from '../page-list'
 import { QuickAccessMenu } from '../quick-access-menu'
 
@@ -11,19 +12,25 @@ export default function NavBar() {
       <nav className="w-[45px] h-full py-3 px-2 border-r border-gray-600">
         <ul className="text-lg flex flex-col items-center gap-y-2 h-full w-full">
           <li>
-            <button className="icon-container">
-              <BiMessageSquareEdit />
-            </button>
+            <ComingSoonFeature>
+              <button className="icon-container">
+                <BiMessageSquareEdit />
+              </button>
+            </ComingSoonFeature>
           </li>
           <li>
-            <button className="icon-container">
-              <BsFiles />
-            </button>
+            <ComingSoonFeature>
+              <button className="icon-container">
+                <BsFiles />
+              </button>
+            </ComingSoonFeature>
           </li>
           <li className="mt-auto">
-            <button className="icon-container">
-              <IoSettingsOutline />
-            </button>
+            <ComingSoonFeature>
+              <button className="icon-container">
+                <IoSettingsOutline />
+              </button>
+            </ComingSoonFeature>
           </li>
         </ul>
       </nav>
