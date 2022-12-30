@@ -1,11 +1,12 @@
 @import 'react-contexify/dist/ReactContexify.css';
+@import './amaterasu.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body,
 #root {
-  @apply w-screen h-screen overflow-hidden;
+  @apply w-screen h-screen overflow-hidden bg-slate-800 text-slate-300;
 }
 
 .icon-container {
