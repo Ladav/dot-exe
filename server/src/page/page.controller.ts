@@ -21,7 +21,7 @@ export class PageController {
     return this.pageService.findOne(id);
   }
 
-  @Patch('/rename/:id')
+  @Patch('rename/:id')
   rename(@Param('id', ParseIntPipe) id: number, @Body() renamePageDto: RenamePageDto) {
     return this.pageService.rename(id, renamePageDto);
   }
