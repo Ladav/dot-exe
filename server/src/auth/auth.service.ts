@@ -16,7 +16,7 @@ export class AuthService {
 
     const { access_token, refresh_token } = client.credentials;
     // Set the access_token and refresh_token as a cookie on the response
-    // res.cookie('Authentication', access_token, { path: '/', httpOnly: true, secure: true, sameSite: 'strict' });
-    // res.cookie('RefreshToken', refresh_token, { path: '/', httpOnly: true, secure: true, sameSite: 'strict' });
+    res.cookie('Authentication', access_token, { path: '/', httpOnly: true, secure: true, sameSite: 'strict' });
+    res.cookie('RefreshToken', refresh_token, { path: '/', httpOnly: true, secure: true, sameSite: 'strict' });
   }
 }
