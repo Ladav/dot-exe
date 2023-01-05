@@ -3,7 +3,7 @@ import { authenticate } from '@google-cloud/local-auth';
 import * as path from 'path';
 import { Response } from 'express';
 
-const SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly'];
+const SCOPES = ['https://www.googleapis.com/auth/drive'];
 const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
 
 @Injectable()
