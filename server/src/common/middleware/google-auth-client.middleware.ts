@@ -9,7 +9,7 @@ export class GoogleAuthClientMiddleware implements NestMiddleware {
 
   use(req: Request, res: Response, next: NextFunction) {
     // extract cookies
-    const accessToken: string = req.cookies.Authorization;
+    const accessToken: string = req.cookies.Authentication;
     const refreshToken: string = req.cookies.RefreshToken;
 
     const clientId = this.configService.get('GOOGLE_CLIENT_ID');

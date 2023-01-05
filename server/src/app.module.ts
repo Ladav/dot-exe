@@ -7,9 +7,10 @@ import { PageModule } from './page/page.module';
 import { AuthModule } from './auth/auth.module';
 import { configOptions } from './common/configs/config-module.options';
 import { GoogleAuthClientMiddleware } from './common/middleware/google-auth-client.middleware';
+import { GDriveModule } from './g-drive/g-drive.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(configOptions), PrismaModule, PageModule, AuthModule],
+  imports: [ConfigModule.forRoot(configOptions), PrismaModule, PageModule, AuthModule, GDriveModule],
   controllers: [AppController],
   providers: [AppService],
 })
