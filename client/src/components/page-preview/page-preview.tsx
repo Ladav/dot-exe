@@ -2,25 +2,26 @@ import { debounce } from 'radash'
 import { useMemo } from 'react'
 import { useMutation } from 'react-query'
 import { useLoaderData, useNavigation } from 'react-router-dom'
-import { updatePageById } from '../../queries/page.queries'
-import { Page, UpdatePageDto } from '../../types/page.types'
+import { updateFile } from '../../queries/file.queries'
+import { GDriveFile, UpdateFileDto } from '../../types/file.types'
 import { MyEditor } from '../my-editor'
 import { MyEditorProps } from '../my-editor/my-editor'
 
 export default function PagePreview() {
   const navigation = useNavigation()
-  const pageData = useLoaderData() as Page
-  const updatePageM = useMutation(updatePageById)
+  const pageData = useLoaderData() as GDriveFile
+  const updatePageM = useMutation(updateFile)
   const pageId = pageData.id
 
   const onChange: MyEditorProps['onUpdate'] = useMemo(
     () =>
       debounce({ delay: 200 }, function updatePageContent({ editor }) {
-        const dto: UpdatePageDto = {
-          content: editor.getHTML(),
-        }
         if (pageId) {
-          updatePageM.mutate({ id: pageId, dto })
+          const dto: UpdateFileDto = {
+            fileId: pageId,
+            content: editor.getHTML(),
+          }
+          updatePageM.mutate(dto)
         }
       }),
     [pageId, updatePageM],
@@ -32,7 +33,7 @@ export default function PagePreview() {
 
   return (
     <div>
-      <div className="text-lg text-right mx-auto max-w-4xl px-4 text-slate-500">{pageData.title}</div>
+      <div className="text-lg text-right mx-auto max-w-4xl px-4 text-slate-500">{pageData.name}</div>
       <MyEditor content={pageData.content} className="px-2 py-3 overflow-auto w-full h-full" onUpdate={onChange} />
     </div>
   )

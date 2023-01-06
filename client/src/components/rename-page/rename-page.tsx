@@ -1,11 +1,11 @@
 import { useCallback, useState } from 'react'
 import { useMutation } from 'react-query'
-import { renamePageById } from '../../queries/page.queries'
 import { queryClient } from '../../constants/client'
 import clsx from 'clsx'
 import { Button } from '../button'
 import { useNavigate, useParams } from 'react-router-dom'
 import { MyModal } from '../my-modal'
+import { renameFile } from '../../queries/file.queries'
 
 export default function RenamePage() {
   const [isOpen, setIsOpen] = useState(true)
@@ -18,7 +18,7 @@ export default function RenamePage() {
     navigate(-1)
   }, [navigate])
 
-  const { isLoading, mutate } = useMutation(renamePageById, {
+  const { isLoading, mutate } = useMutation(renameFile, {
     onSuccess: () => {
       queryClient.invalidateQueries(['page-list'])
       handleModalClose()
@@ -28,7 +28,7 @@ export default function RenamePage() {
   const onCreate = useCallback(
     (title: string) => {
       if (pageId) {
-        mutate({ id: pageId, dto: { title } })
+        mutate({ fileId: pageId, name: title })
       }
     },
     [mutate, pageId],

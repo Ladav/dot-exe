@@ -2,7 +2,7 @@ import { drive_v3 } from 'googleapis';
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { GaxiosError } from 'gaxios';
 import { tryit } from 'radash';
-import { CreateFileDto, UpdateFileDto } from './g-drive.dto';
+import { CreateFileDto, RenameFileDto, UpdateFileDto } from './g-drive.dto';
 
 export const RootFolder = '###DotExe###';
 
@@ -61,7 +61,7 @@ export class GDriveService {
       requestBody: {
         parents: [folder.id],
         mimeType: 'text/plain',
-        name: `${createFileDto.title}.txt`,
+        name: `${createFileDto.title}`,
       },
       media: {
         mimeType: 'text/plain',
@@ -74,6 +74,24 @@ export class GDriveService {
       return response.data;
     } catch (error) {
       console.log(error);
+      if (error instanceof GaxiosError) {
+        throw new BadRequestException(error.message);
+      }
+      throw new BadRequestException('failed to create root folder');
+    }
+  }
+
+  async renameFile(drive: drive_v3.Drive, renameFileDto: RenameFileDto) {
+    const params: drive_v3.Params$Resource$Files$Update = {
+      fileId: renameFileDto.fileId,
+      fields: 'id, name',
+      requestBody: { name: renameFileDto.name },
+    };
+
+    try {
+      const response = await drive.files.update(params);
+      return response.data;
+    } catch (error) {
       if (error instanceof GaxiosError) {
         throw new BadRequestException(error.message);
       }
@@ -124,6 +142,23 @@ export class GDriveService {
 
     try {
       const response = await drive.files.list(params);
+      return response.data.files;
+    } catch (error) {
+      if (error instanceof GaxiosError) {
+        throw new BadRequestException(error.message);
+      }
+      throw new BadRequestException('failed to fetch file list');
+    }
+  }
+
+  private async readFileMetadata(drive: drive_v3.Drive, fileId: string) {
+    const params: drive_v3.Params$Resource$Files$Get = {
+      fileId,
+      fields: 'id, name',
+    };
+
+    try {
+      const response = await drive.files.get(params);
       return response.data;
     } catch (error) {
       if (error instanceof GaxiosError) {
@@ -133,7 +168,7 @@ export class GDriveService {
     }
   }
 
-  async readFile(drive: drive_v3.Drive, fileId: string) {
+  private async readFileContent(drive: drive_v3.Drive, fileId: string) {
     const params: drive_v3.Params$Resource$Files$Get = {
       fileId,
       alt: 'media',
@@ -148,5 +183,14 @@ export class GDriveService {
       }
       throw new BadRequestException('failed to fetch file list');
     }
+  }
+
+  async readFile(drive: drive_v3.Drive, fileId: string) {
+    const fileMetadata = await this.readFileMetadata(drive, fileId);
+    const fileContent = await this.readFileContent(drive, fileId);
+    return {
+      ...fileMetadata,
+      content: fileContent,
+    };
   }
 }

@@ -1,24 +1,24 @@
 import { drive_v3 } from 'googleapis';
-import { Body, Controller, Delete, Get, Param, Patch, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { GetGDriveClient } from 'src/common/decorators/get-gdrive-client.decorator';
 import { GDriveService } from './g-drive.service';
-import { CreateFileDto, UpdateFileDto } from './g-drive.dto';
+import { CreateFileDto, RenameFileDto, UpdateFileDto } from './g-drive.dto';
 
 @Controller('g-drive')
 export class GDriveController {
   constructor(private readonly gDriveService: GDriveService) {}
 
-  @Get('get-list')
+  @Get('file/all')
   getList(@GetGDriveClient() drive: drive_v3.Drive) {
     return this.gDriveService.getFileList(drive);
   }
 
-  @Put('create-root-folder')
-  createDotExeFolder(@GetGDriveClient() drive: drive_v3.Drive) {
-    return this.gDriveService.createDotExeFolder(drive);
+  @Get('file/read/:fileId')
+  readFileById(@GetGDriveClient() drive: drive_v3.Drive, @Param('fileId') fileId: string) {
+    return this.gDriveService.readFile(drive, fileId);
   }
 
-  @Put('file/create')
+  @Post('file/create')
   createFile(@GetGDriveClient() drive: drive_v3.Drive, @Body() createFileDto: CreateFileDto) {
     return this.gDriveService.createFile(drive, createFileDto);
   }
@@ -28,13 +28,13 @@ export class GDriveController {
     return this.gDriveService.updateFile(drive, updateFileDto);
   }
 
+  @Patch('file/rename')
+  renameFile(@GetGDriveClient() drive: drive_v3.Drive, @Body() renameFileDto: RenameFileDto) {
+    return this.gDriveService.renameFile(drive, renameFileDto);
+  }
+
   @Delete('file/delete/:fileId')
   deleteFileById(@GetGDriveClient() drive: drive_v3.Drive, @Param('fileId') fileId: string) {
     return this.gDriveService.deleteFile(drive, fileId);
-  }
-
-  @Get('file/read/:fileId')
-  readFileById(@GetGDriveClient() drive: drive_v3.Drive, @Param('fileId') fileId: string) {
-    return this.gDriveService.readFile(drive, fileId);
   }
 }

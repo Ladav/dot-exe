@@ -11,9 +11,9 @@ import { FiEdit3 } from 'react-icons/fi'
 import { Popover } from '@headlessui/react'
 import { SortOrder } from '../../enums/sort-order.enum'
 import usePersistedState from '../../hooks/use-persisted-state'
-import { deletePageById, getPageList } from '../../queries/page.queries'
 import { queryClient } from '../../constants/client'
 import { Confirm } from '../confirm'
+import { deleteFileById, getFiles } from '../../queries/file.queries'
 
 export default function PageList() {
   const navigate = useNavigate()
@@ -23,15 +23,15 @@ export default function PageList() {
 
   const pagesQ = useQuery(pageListQueryKey, ({ queryKey }) => {
     const [, params] = queryKey
-    return getPageList(params)
+    return getFiles()
   })
 
-  const deletePageM = useMutation(deletePageById, {
+  const deletePageM = useMutation(deleteFileById, {
     onMutate: (pageId) => {
-      const pages = queryClient.getQueryData<Awaited<ReturnType<typeof getPageList>>>(pageListQueryKey)
-      queryClient.setQueryData<Awaited<ReturnType<typeof getPageList>>>(pageListQueryKey, (prev) => {
+      const pages = queryClient.getQueryData<Awaited<ReturnType<typeof getFiles>>>(pageListQueryKey)
+      queryClient.setQueryData<Awaited<ReturnType<typeof getFiles>>>(pageListQueryKey, (prev) => {
         if (prev) {
-          return prev?.filter((page) => page.id !== +pageId)
+          return prev?.filter((page) => page.id !== pageId)
         }
         return []
       })
@@ -43,7 +43,7 @@ export default function PageList() {
     },
     onSuccess: (data, pageId, prevState) => {
       toast.success('page deleted')
-      const pageIdx = prevState?.findIndex((page) => page.id === +pageId)
+      const pageIdx = prevState?.findIndex((page) => page.id === pageId)
       if (typeof pageIdx !== 'number' || !prevState) {
         navigate('/page')
         return
@@ -66,7 +66,7 @@ export default function PageList() {
   })
 
   const onDelete = useCallback(
-    (id: number) => {
+    (id: string) => {
       deletePageM.mutate(id)
     },
     [deletePageM],
@@ -97,8 +97,8 @@ export default function PageList() {
 
 type ListItemProps = {
   activePageId: string
-  page: Awaited<ReturnType<typeof getPageList>>[0]
-  onDelete: (id: number) => void
+  page: Awaited<ReturnType<typeof getFiles>>[0]
+  onDelete: (id: string) => void
 }
 
 function ListItem({ activePageId, page, onDelete }: ListItemProps) {
@@ -128,13 +128,13 @@ function ListItem({ activePageId, page, onDelete }: ListItemProps) {
         <Link
           className={clsx(
             'icon-container !justify-start w-full !px-2 text-sm !py-0.5',
-            page.id === +activePageId && 'bg-slate-100 bg-opacity-25',
+            page.id === activePageId && 'bg-slate-100 bg-opacity-25',
             isMenuOpen && 'outline-none ring-2 ring-slate-400',
           )}
           to={`/page/${page.id}`}
         >
           <span className="w-full text-start flex group items-center justify-between">
-            <span>{page.title}</span>
+            <span>{page.name}</span>
             <Confirm
               onClick={handleDeletePage}
               content="Are you sure, you want to delete this page?"

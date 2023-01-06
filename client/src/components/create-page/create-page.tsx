@@ -1,11 +1,11 @@
 import { useCallback, useState } from 'react'
 import { useMutation } from 'react-query'
-import { createPage } from '../../queries/page.queries'
 import { queryClient } from '../../constants/client'
 import clsx from 'clsx'
 import { Button } from '../button'
 import { MyModal } from '../my-modal'
 import { useNavigate } from 'react-router-dom'
+import { createFile } from '../../queries/file.queries'
 
 export default function CreatePage() {
   const [isOpen, setIsOpen] = useState(true)
@@ -13,7 +13,7 @@ export default function CreatePage() {
   const navigate = useNavigate()
 
   const handleModalClose = useCallback(
-    (pageId?: number) => {
+    (pageId?: string) => {
       setIsOpen(false)
       if (pageId) {
         navigate(`/page/${pageId}`)
@@ -24,7 +24,7 @@ export default function CreatePage() {
     [navigate],
   )
 
-  const createPageM = useMutation(createPage, {
+  const createPageM = useMutation(createFile, {
     onSuccess: ({ id }) => {
       queryClient.invalidateQueries(['page-list'])
       handleModalClose(id)
