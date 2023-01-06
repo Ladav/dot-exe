@@ -1,7 +1,6 @@
-import { createBrowserRouter, createRoutesFromElements, redirect, Route, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
 import { Home } from '../../pages/home'
 import { Login } from '../../pages/login'
-import { getFileContentById } from '../../queries/file.queries'
 import { CreatePage } from '../create-page'
 import { NotFound } from '../not-found'
 import { PagePreview } from '../page-preview'
@@ -14,20 +13,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<Home />}>
         <Route path="page/create/new" element={<CreatePage />} />
         <Route path="page/rename/:pageId" element={<RenamePage />} />
-        <Route
-          path="page/:pageId"
-          loader={async ({ params }) => {
-            const { pageId } = params
-            if (pageId) {
-              const data = await getFileContentById(pageId)
-              return data
-            }
-
-            redirect('/not-found')
-          }}
-          element={<PagePreview />}
-          errorElement={<PagePreview.ErrorElement />}
-        />
+        <Route path="page/:pageId" element={<PagePreview />} />
         <Route path="/" element={<PagePreview.PagePreviewPlaceholder />} />
       </Route>
       <Route path="*" element={<NotFound />} />

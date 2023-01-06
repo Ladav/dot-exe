@@ -14,10 +14,10 @@ import { lowlight } from 'lowlight'
 type EditorOptionsType = Exclude<Parameters<typeof useEditor>['0'], undefined>
 export interface MyEditorProps extends Pick<EditorContentProps, 'className'> {
   content: EditorOptionsType['content']
-  onUpdate: EditorOptionsType['onBlur']
+  onBlur: Exclude<EditorOptionsType['onBlur'], undefined>
 }
 
-export default function MyEditor({ onUpdate, content, ...editorContentProps }: MyEditorProps) {
+export default function MyEditor({ onBlur, content, ...editorContentProps }: MyEditorProps) {
   const editor = useEditor({
     autofocus: true,
     extensions: [
@@ -42,7 +42,7 @@ export default function MyEditor({ onUpdate, content, ...editorContentProps }: M
         class: 'prose mx-auto prose-invert p-4 focus:outline-none max-w-[800px]',
       },
     },
-    onBlur: onUpdate,
+    onBlur,
   })
 
   if (!editor) {
