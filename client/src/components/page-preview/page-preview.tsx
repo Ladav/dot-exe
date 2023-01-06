@@ -10,19 +10,18 @@ import { MyEditorProps } from '../my-editor/my-editor'
 export default function PagePreview() {
   const navigation = useNavigation()
   const pageData = useLoaderData() as GDriveFile
-  const updatePageM = useMutation(updateFile)
   const pageId = pageData.id
+  const updatePageMutationKey = ['update-page', pageId]
+  const updatePageM = useMutation(updatePageMutationKey, updateFile)
 
   const onChange: MyEditorProps['onUpdate'] = useMemo(
     () =>
       debounce({ delay: 200 }, function updatePageContent({ editor }) {
-        if (pageId) {
-          const dto: UpdateFileDto = {
-            fileId: pageId,
-            content: editor.getHTML(),
-          }
-          updatePageM.mutate(dto)
+        const dto: UpdateFileDto = {
+          fileId: pageId,
+          content: editor.getHTML(),
         }
+        updatePageM.mutate(dto)
       }),
     [pageId, updatePageM],
   )

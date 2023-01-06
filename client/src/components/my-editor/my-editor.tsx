@@ -1,4 +1,4 @@
-import { useEditor, EditorContent, EditorContentProps, ReactNodeViewRenderer } from '@tiptap/react'
+import { useEditor, EditorContent, EditorContentProps } from '@tiptap/react'
 import Document from '@tiptap/extension-document'
 import Text from '@tiptap/extension-text'
 import Paragraph from '@tiptap/extension-paragraph'
@@ -14,7 +14,7 @@ import { lowlight } from 'lowlight'
 type EditorOptionsType = Exclude<Parameters<typeof useEditor>['0'], undefined>
 export interface MyEditorProps extends Pick<EditorContentProps, 'className'> {
   content: EditorOptionsType['content']
-  onUpdate: EditorOptionsType['onUpdate']
+  onUpdate: EditorOptionsType['onBlur']
 }
 
 export default function MyEditor({ onUpdate, content, ...editorContentProps }: MyEditorProps) {
@@ -42,7 +42,7 @@ export default function MyEditor({ onUpdate, content, ...editorContentProps }: M
         class: 'prose mx-auto prose-invert p-4 focus:outline-none max-w-[800px]',
       },
     },
-    onUpdate,
+    onBlur: onUpdate,
   })
 
   if (!editor) {
