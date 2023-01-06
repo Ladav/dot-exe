@@ -32,9 +32,9 @@ export default function PagePreview() {
   }
 
   return (
-    <div>
+    <div className="px-2 py-3 overflow-auto w-full h-full">
       <div className="text-lg text-right mx-auto max-w-4xl px-4 text-slate-500">{pageData.name}</div>
-      <MyEditor content={pageData.content} className="px-2 py-3 overflow-auto w-full h-full" onUpdate={onChange} />
+      <MyEditor content={pageData.content} onUpdate={onChange} />
     </div>
   )
 }
