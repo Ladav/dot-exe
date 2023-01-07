@@ -14,32 +14,34 @@ import usePersistedState from '../../hooks/use-persisted-state'
 import { queryClient } from '../../constants/client'
 import { Confirm } from '../confirm'
 import { deleteFileById, getFiles } from '../../queries/file.queries'
+import { PAGE_LIST } from '../../constants/constant'
 
 export default function PageList() {
   const navigate = useNavigate()
   const { pageId } = useParams() as { pageId: string }
   const [sortOrder] = usePersistedState<SortOrder>('sortOrder', SortOrder.FILE_A_TO_Z)
-  const pageListQueryKey = ['page-list', { sortOrder }] as const
 
-  const pagesQ = useQuery(pageListQueryKey, ({ queryKey }) => {
-    const [, params] = queryKey
-    return getFiles()
-  })
+  const pagesQ = useQuery(PAGE_LIST, getFiles)
 
   const deletePageM = useMutation(deleteFileById, {
     onMutate: (pageId) => {
-      const pages = queryClient.getQueryData<Awaited<ReturnType<typeof getFiles>>>(pageListQueryKey)
-      queryClient.setQueryData<Awaited<ReturnType<typeof getFiles>>>(pageListQueryKey, (prev) => {
+      const pages = queryClient.getQueryData<Awaited<ReturnType<typeof getFiles>>>(PAGE_LIST)
+      // remove the page, page-list query
+      queryClient.setQueryData<Awaited<ReturnType<typeof getFiles>>>(PAGE_LIST, (prev) => {
         if (prev) {
           return prev?.filter((page) => page.id !== pageId)
         }
         return []
       })
+      // remove the page content query
+      queryClient.removeQueries(['page', pageId])
 
       return pages
     },
     onError: (error, vars, prevState) => {
-      queryClient.setQueryData(pageListQueryKey, prevState)
+      if (prevState) {
+        queryClient.setQueryData(PAGE_LIST, prevState)
+      }
     },
     onSuccess: (data, pageId, prevState) => {
       toast.success('page deleted')

@@ -5,7 +5,9 @@ import clsx from 'clsx'
 import { Button } from '../button'
 import { MyModal } from '../my-modal'
 import { useNavigate } from 'react-router-dom'
-import { createFile } from '../../queries/file.queries'
+import { createFile, getFiles } from '../../queries/file.queries'
+import { toast } from 'react-hot-toast'
+import { PAGE_LIST } from '../../constants/constant'
 
 export default function CreatePage() {
   const [isOpen, setIsOpen] = useState(true)
@@ -25,9 +27,10 @@ export default function CreatePage() {
   )
 
   const createPageM = useMutation(createFile, {
-    onSuccess: ({ id }) => {
-      queryClient.invalidateQueries(['page-list'])
-      handleModalClose(id)
+    onSuccess: (page) => {
+      queryClient.setQueryData<Awaited<ReturnType<typeof getFiles>>>(PAGE_LIST, (prev) => [page, ...(prev || [])])
+      handleModalClose(page.id)
+      toast.success('page created')
     },
   })
 

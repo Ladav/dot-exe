@@ -1,11 +1,13 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useMutation } from 'react-query'
 import { queryClient } from '../../constants/client'
 import clsx from 'clsx'
 import { Button } from '../button'
 import { useNavigate, useParams } from 'react-router-dom'
 import { MyModal } from '../my-modal'
-import { renameFile } from '../../queries/file.queries'
+import { getFileContentById, getFiles, renameFile } from '../../queries/file.queries'
+import { PAGE_LIST } from '../../constants/constant'
+import { toast } from 'react-hot-toast'
 
 export default function RenamePage() {
   const [isOpen, setIsOpen] = useState(true)
@@ -13,15 +15,56 @@ export default function RenamePage() {
   const navigate = useNavigate()
   const { pageId } = useParams<{ pageId: string }>()
 
+  useEffect(() => {
+    if (pageId) {
+      const currentPageList = queryClient.getQueryData<Awaited<ReturnType<typeof getFiles>>>(PAGE_LIST)
+      const item = currentPageList?.find((item) => item.id === pageId)
+
+      if (item) {
+        setTitleInput(item.name)
+      }
+    }
+  }, [pageId])
+
   const handleModalClose = useCallback(() => {
     setIsOpen(false)
     navigate(-1)
   }, [navigate])
 
   const { isLoading, mutate } = useMutation(renameFile, {
+    onMutate: ({ fileId, name: newName }) => {
+      const currentPageList = queryClient.getQueryData<Awaited<ReturnType<typeof getFiles>>>(PAGE_LIST)
+      const currentPageContent = queryClient.getQueryData<Awaited<ReturnType<typeof getFileContentById>>>([
+        'page',
+        pageId,
+      ])
+
+      // rename the page in page-list query
+      queryClient.setQueryData(PAGE_LIST, () =>
+        currentPageList?.map((item) => {
+          if (item.id === fileId) {
+            return {
+              ...item,
+              name: newName,
+            }
+          }
+          return item
+        }),
+      )
+      // rename the page in page content query
+      queryClient.setQueryData(['page', pageId], { ...currentPageContent, name: newName })
+
+      return () => {
+        queryClient.setQueryData(PAGE_LIST, currentPageList)
+        queryClient.setQueryData(['page', pageId], currentPageContent)
+      }
+    },
+    onError: (data, vars, undo) => {
+      undo?.()
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries(['page-list'])
       handleModalClose()
+      toast.success('page renamed')
     },
   })
 
