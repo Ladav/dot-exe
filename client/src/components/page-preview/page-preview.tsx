@@ -1,5 +1,5 @@
 import { debounce } from 'radash'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { toast } from 'react-hot-toast'
 import { useMutation, useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
@@ -11,7 +11,12 @@ import { MyEditorProps } from '../my-editor/my-editor'
 
 export default function PagePreview() {
   const { pageId } = useParams() as { pageId: string }
+  const dirtyFlagRef = useRef<boolean>(false)
   const pageDataQueryKey = ['page', pageId]
+
+  useEffect(() => {
+    dirtyFlagRef.current = false
+  }, [pageId])
 
   const pageDataQ = useQuery(pageDataQueryKey, ({ queryKey }) => {
     const [, id] = queryKey
@@ -46,7 +51,14 @@ export default function PagePreview() {
   )
 
   const updateContentOnServer: MyEditorProps['onBlur'] = (...props) => {
-    return debouncedUpdatePageM(...props)
+    console.log('on update', dirtyFlagRef)
+    if (dirtyFlagRef.current) {
+      return debouncedUpdatePageM(...props)
+    }
+  }
+
+  const setDirtyFlag = () => {
+    dirtyFlagRef.current = true
   }
 
   if (pageDataQ.isLoading) {
@@ -62,7 +74,7 @@ export default function PagePreview() {
     return (
       <div className="px-2 py-3 overflow-auto w-full h-full" key={id}>
         <div className="text-lg text-right mx-auto max-w-4xl px-4 text-slate-500">{name}</div>
-        <MyEditor content={content} onBlur={(...props) => updateContentOnServer(...props)} />
+        <MyEditor content={content} onBlur={updateContentOnServer} onUpdate={setDirtyFlag} />
       </div>
     )
   }

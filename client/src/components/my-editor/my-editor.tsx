@@ -15,9 +15,10 @@ type EditorOptionsType = Exclude<Parameters<typeof useEditor>['0'], undefined>
 export interface MyEditorProps extends Pick<EditorContentProps, 'className'> {
   content: EditorOptionsType['content']
   onBlur: Exclude<EditorOptionsType['onBlur'], undefined>
+  onUpdate: EditorOptionsType['onUpdate']
 }
 
-export default function MyEditor({ onBlur, content, ...editorContentProps }: MyEditorProps) {
+export default function MyEditor({ onBlur, content, onUpdate, ...editorContentProps }: MyEditorProps) {
   const editor = useEditor({
     autofocus: true,
     extensions: [
@@ -43,6 +44,7 @@ export default function MyEditor({ onBlur, content, ...editorContentProps }: MyE
       },
     },
     onBlur,
+    onUpdate,
   })
 
   if (!editor) {
