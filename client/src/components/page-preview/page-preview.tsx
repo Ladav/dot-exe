@@ -51,7 +51,6 @@ export default function PagePreview() {
   )
 
   const updateContentOnServer: MyEditorProps['onBlur'] = (...props) => {
-    console.log('on update', dirtyFlagRef)
     if (dirtyFlagRef.current) {
       return debouncedUpdatePageM(...props)
     }
