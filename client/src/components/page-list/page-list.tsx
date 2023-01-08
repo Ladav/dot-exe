@@ -1,5 +1,5 @@
 import { range } from 'radash'
-import { MouseEvent, useCallback, useMemo, useState } from 'react'
+import { MouseEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import clsx from 'clsx'
@@ -21,7 +21,12 @@ export default function PageList() {
   const { pageId } = useParams() as { pageId: string }
   const [sortOrder] = usePersistedState<SortOrder>('sortOrder', SortOrder.FILE_A_TO_Z)
 
-  const pagesQ = useQuery(PAGE_LIST, getFiles)
+  const pagesQ = useQuery(PAGE_LIST, () => getFiles({ sortOrder }))
+
+  useEffect(() => {
+    pagesQ.refetch()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sortOrder])
 
   const deletePageM = useMutation(deleteFileById, {
     onMutate: (pageId) => {
@@ -77,7 +82,7 @@ export default function PageList() {
   return (
     <ul className="mt-2 w-full space-y-1">
       {useMemo(() => {
-        if (pagesQ.status === 'loading') {
+        if (pagesQ.isLoading || pagesQ.isFetching) {
           return [...range(0, 2)].map((idx) => (
             <li key={idx} className="icon-container skeleton !justify-start !px-2 text-sm !py-0.5">
               ...
@@ -92,7 +97,7 @@ export default function PageList() {
         }
 
         return null
-      }, [onDelete, pageId, pagesQ.data, pagesQ.status])}
+      }, [onDelete, pageId, pagesQ.data, pagesQ.isFetching, pagesQ.isLoading])}
     </ul>
   )
 }

@@ -1,3 +1,5 @@
+import { SortOrder } from '../enums/sort-order.enum'
+
 export type GDriveFile = {
   id: string
   name: string
@@ -16,4 +18,8 @@ export interface UpdateFileDto extends Pick<CreateFileDto, 'content'> {
 export interface RenameFileDto {
   fileId: string
   name: string
+}
+
+export interface FilterFilesDto {
+  sortOrder?: SortOrder
 }

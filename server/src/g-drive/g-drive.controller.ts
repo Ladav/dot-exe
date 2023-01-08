@@ -1,16 +1,16 @@
 import { drive_v3 } from 'googleapis';
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { GetGDriveClient } from 'src/common/decorators/get-gdrive-client.decorator';
 import { GDriveService } from './g-drive.service';
-import { CreateFileDto, RenameFileDto, UpdateFileDto } from './g-drive.dto';
+import { CreateFileDto, FilterFilesDto, RenameFileDto, UpdateFileDto } from './g-drive.dto';
 
 @Controller('g-drive')
 export class GDriveController {
   constructor(private readonly gDriveService: GDriveService) {}
 
   @Get('file/all')
-  getList(@GetGDriveClient() drive: drive_v3.Drive) {
-    return this.gDriveService.getFileList(drive);
+  getList(@GetGDriveClient() drive: drive_v3.Drive, @Query() filterFilesDto: FilterFilesDto) {
+    return this.gDriveService.getFileList(drive, filterFilesDto);
   }
 
   @Get('file/read/:fileId')

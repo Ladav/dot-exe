@@ -2,7 +2,8 @@ import { drive_v3 } from 'googleapis';
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { GaxiosError } from 'gaxios';
 import { tryit } from 'radash';
-import { CreateFileDto, RenameFileDto, UpdateFileDto } from './g-drive.dto';
+import { CreateFileDto, RenameFileDto, UpdateFileDto, FilterFilesDto } from './g-drive.dto';
+import { SortOrder } from 'src/common/enums/sort-order.enum';
 
 export const RootFolder = '###DotExe###';
 
@@ -132,13 +133,36 @@ export class GDriveService {
     }
   }
 
-  async getFileList(drive: drive_v3.Drive) {
+  async getFileList(drive: drive_v3.Drive, filterFilesDto: FilterFilesDto) {
     const folder = await this.getRootFolder(drive);
 
     const params: drive_v3.Params$Resource$Files$List = {
       q: `'${folder.id}' in parents and trashed=false`,
       fields: 'nextPageToken, files(id, name, createdTime, modifiedTime, size)',
     };
+
+    switch (filterFilesDto.sortOrder) {
+      case SortOrder.FILE_A_TO_Z:
+        params['orderBy'] = 'name';
+        break;
+      case SortOrder.FILE_Z_TO_A:
+        params['orderBy'] = 'name desc';
+        break;
+      case SortOrder.MODIFIED_NEW_TO_OLD:
+        params['orderBy'] = 'modifiedTime desc';
+        break;
+      case SortOrder.MODIFIED_OLD_TO_NEW:
+        params['orderBy'] = 'modifiedTime';
+        break;
+      case SortOrder.CREATED_NEW_TO_OLD:
+        params['orderBy'] = 'createdTime desc';
+        break;
+      case SortOrder.CREATED_OLD_TO_NEW:
+        params['orderBy'] = 'createdTime';
+        break;
+      default:
+        params['orderBy'] = 'createdTime desc';
+    }
 
     try {
       const response = await drive.files.list(params);

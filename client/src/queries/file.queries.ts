@@ -1,13 +1,13 @@
 import { apiClient } from '../constants/client'
-import { CreateFileDto, GDriveFile, RenameFileDto, UpdateFileDto } from '../types/file.types'
+import { CreateFileDto, FilterFilesDto, GDriveFile, RenameFileDto, UpdateFileDto } from '../types/file.types'
 
 export async function createFile(dto: CreateFileDto) {
   const { data } = await apiClient.post<Pick<GDriveFile, 'id' | 'name'>>('/g-drive/file/create', dto)
   return data
 }
 
-export async function getFiles() {
-  const { data } = await apiClient.get<Pick<GDriveFile, 'id' | 'name'>[]>('/g-drive/file/all')
+export async function getFiles(params: FilterFilesDto) {
+  const { data } = await apiClient.get<Pick<GDriveFile, 'id' | 'name'>[]>('/g-drive/file/all', { params })
   return data
 }
 
