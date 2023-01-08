@@ -1,5 +1,5 @@
 import { debounce } from 'radash'
-import { useEffect, useMemo, useRef } from 'react'
+import { useMemo } from 'react'
 import { toast } from 'react-hot-toast'
 import { useMutation, useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
@@ -11,19 +11,14 @@ import { MyEditorProps } from '../my-editor/my-editor'
 
 export default function PagePreview() {
   const { pageId } = useParams() as { pageId: string }
-  const dirtyFlagRef = useRef<boolean>(false)
-  const pageDataQueryKey = ['page', pageId]
 
-  useEffect(() => {
-    dirtyFlagRef.current = false
-  }, [pageId])
-
-  const pageDataQ = useQuery(pageDataQueryKey, ({ queryKey }) => {
+  const pageDataQ = useQuery(['page', pageId], ({ queryKey }) => {
     const [, id] = queryKey
     return getFileContentById(id)
   })
   const updatePageM = useMutation(updateFile, {
-    onMutate: ({ content }) => {
+    onMutate: ({ fileId, content }) => {
+      const pageDataQueryKey = ['page', fileId]
       const currentData = queryClient.getQueryData<GDriveFile>(pageDataQueryKey)
       if (currentData) {
         queryClient.setQueryData(pageDataQueryKey, { ...currentData, content })
@@ -38,9 +33,9 @@ export default function PagePreview() {
     },
   })
 
-  const debouncedUpdatePageM: MyEditorProps['onBlur'] = useMemo(
+  const debouncedUpdatePageM: MyEditorProps['onUpdate'] = useMemo(
     () =>
-      debounce({ delay: 200 }, function updatePageContent({ editor }) {
+      debounce({ delay: 10000 }, function updatePageContent({ editor }) {
         const dto: UpdateFileDto = {
           fileId: pageId,
           content: editor.getHTML(),
@@ -50,14 +45,8 @@ export default function PagePreview() {
     [pageId, updatePageM],
   )
 
-  const updateContentOnServer: MyEditorProps['onBlur'] = (...props) => {
-    if (dirtyFlagRef.current) {
-      return debouncedUpdatePageM(...props)
-    }
-  }
-
-  const setDirtyFlag = () => {
-    dirtyFlagRef.current = true
+  const updateContentOnServer: MyEditorProps['onUpdate'] = (...props) => {
+    return debouncedUpdatePageM(...props)
   }
 
   if (pageDataQ.isLoading) {
@@ -73,7 +62,7 @@ export default function PagePreview() {
     return (
       <div className="px-2 py-3 overflow-auto w-full h-full" key={id}>
         <div className="text-lg text-right mx-auto max-w-4xl px-4 text-slate-500">{name}</div>
-        <MyEditor content={content} onBlur={updateContentOnServer} onUpdate={setDirtyFlag} />
+        <MyEditor content={content} onUpdate={updateContentOnServer} />
       </div>
     )
   }
